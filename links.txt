@@ -1,0 +1,8 @@
+C++ Links
+
+Walkthrough: Compiling a Native C++ Program on the Command Line
+https://learn.microsoft.com/en-us/cpp/build/walkthrough-compiling-a-native-cpp-program-on-the-command-line?view=msvc-170
+
+cl command reference
+https://learn.microsoft.com/en-us/cpp/build/reference/compiler-command-line-syntax?view=msvc-170
+
