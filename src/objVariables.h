@@ -5,4 +5,9 @@ public:
   float values[26];
   
   void begin();
+  void clear();
+  void setVariable(char v, float n);
+  float getVariable(char v);
+    
+  int getIndex(char v);
 };
