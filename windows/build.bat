@@ -1,1 +1,1 @@
-cl /EHsc testVariables.cpp objVariables.cpp 
+cl /EHsc testStatement.cpp objStatement.cpp 
