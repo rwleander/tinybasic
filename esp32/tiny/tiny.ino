@@ -1,9 +1,9 @@
 //  test objVariables with m5 stick
 
 #include <M5StickC.h>
-#include "objVariables.h"
+#include "objStatement.h"
 
-objVariables vars;
+objStatement stmt;
 
 //  setup
 
@@ -15,10 +15,7 @@ void setup() {
   
   Serial.begin(115200);
   
-  vars.setVariable('A', 10.0);
-  vars.setVariable('B', 20.0);
-  vars.setVariable('M', 30.0);
-  vars.setVariable('Z', 40.0);  
+  stmt.setLine("120 LET A = 100");
 }
 
 //  loop look for button press
@@ -26,9 +23,9 @@ void setup() {
 void loop() {
 	  float n;
 	  	
-	 if (M5.BtnA.read() == 1) {
-		   n = vars.getVariable('M');
-    Serial.println(n);
+	 if (M5.BtnA.read() == 1) {		   
+    Serial.println(stmt.sequence);
+	Serial.println(stmt.text);
   }
 
   m5.update();
