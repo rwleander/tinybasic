@@ -10,4 +10,5 @@ public:
   
   void begin();
   void clear();
+  int add(objStatement* stmt);
 };
