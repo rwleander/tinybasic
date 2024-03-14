@@ -11,4 +11,9 @@ public:
   void begin();
   void clear();
   int add(objStatement* stmt);
+  
+  //  helper methods - should be private
+  
+  int find(int sequence);
+  void replace(objStatement* stmt, int n);
 };
