@@ -2,7 +2,6 @@
 
 #include "objStatementList.h"
 #include "objStatement.h"
-
 //  begin - clear list
 
  void objStatementList::begin() {
@@ -103,10 +102,17 @@ void objStatementList::replace(objStatement* stmt, int n)
 	}	
 }
 
-
 //  insert statement into list at insertion pointer
 
 void objStatementList::insert(objStatement* stmt, int n) {
+	
+	//  if n out of range, do nothing
+	if ((n < 0) || (n >= count)) {
+		return;
+	}
+	
+	//  otherwise, insert 
+	
 	int i = count - 1;
 	while (i >= n) {
 		statementList[i + 1] = statementList[i];
@@ -115,5 +121,27 @@ void objStatementList::insert(objStatement* stmt, int n) {
 	
 	statementList[n] = stmt;
 	count++;
+}
+
+//  delete at index
+
+void objStatementList::remove(int n) {
+	
+	//  make sure index is within bounds
+	
+	if ((n < 0) || (n >= count)) {
+		return;
+	}
+	
+	//  otherwise remove item
+	
+	delete statementList[n];
+	int i = n;
+	while (i <= count) {		
+		statementList[i] = statementList[i + 1];
+		i++;
+	}
+	
+	count--;	
 }
 

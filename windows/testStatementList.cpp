@@ -62,6 +62,7 @@ int main() {
   assert(lst.statementList[3] == stmt4);
   
 //  test insert method
+
   printf("Testing insert  method\n");
   n = lst.find(15);
   assert(n == 1);
@@ -71,6 +72,16 @@ int main() {
   assert(lst.statementList[0] == stmt1);
   assert(lst.statementList[1] == stmt1a);
   assert(lst.statementList[2] == stmt2);
+  
+  //  test remove method
+
+  printf("Testing remove   method\n");
+  n = lst.find(20);
+  assert(n == 2);
+  lst.remove(n);  
+  assert(lst.count == 4);
+  assert(lst.statementList[1] == stmt1a);
+  assert(lst.statementList[2] == stmt3a);
   
   
 

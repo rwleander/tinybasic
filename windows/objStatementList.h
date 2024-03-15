@@ -17,4 +17,5 @@ public:
   int find(int sequence);
   void replace(objStatement* stmt, int n);
   void insert(objStatement* stmt, int n);
+  void remove(int n);
 };
