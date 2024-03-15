@@ -61,6 +61,17 @@ int main() {
   assert(lst.statementList[2] == stmt3a);
   assert(lst.statementList[3] == stmt4);
   
+//  test insert method
+  printf("Testing insert  method\n");
+  n = lst.find(15);
+  assert(n == 1);
+  objStatement* stmt1a = new objStatement("15 LET A = A * 2");
+  lst.insert(stmt1a, n);  
+  assert(lst.count == 5);
+  assert(lst.statementList[0] == stmt1);
+  assert(lst.statementList[1] == stmt1a);
+  assert(lst.statementList[2] == stmt2);
+  
   
 
 

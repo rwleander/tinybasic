@@ -100,6 +100,20 @@ void objStatementList::replace(objStatement* stmt, int n)
 	if ((n >= 0) && (n < count)) {
 		delete statementList[n];
 		statementList[n] = stmt;
+	}	
+}
+
+
+//  insert statement into list at insertion pointer
+
+void objStatementList::insert(objStatement* stmt, int n) {
+	int i = count - 1;
+	while (i >= n) {
+		statementList[i + 1] = statementList[i];
+		i--;
 	}
 	
+	statementList[n] = stmt;
+	count++;
 }
+
