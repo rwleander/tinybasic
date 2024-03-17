@@ -36,6 +36,13 @@ int main() {
   int n   = stmt2->getLine(line);
   assert(strcmp(line, "120 LET B = 20") == 0);
 
+//  test empty line number
+
+printf("Testing empty statement\n");
+objStatement stmt3 = objStatement("50");
+assert(stmt3.sequence == 50);
+assert(strlen(stmt3.text) == 0);
+
 // done
 
   printf("Tests complete\n");
