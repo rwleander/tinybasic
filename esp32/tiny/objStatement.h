@@ -1,5 +1,8 @@
 //  objStatement.h - container to hold one line of basic code
 
+#ifndef __objStatement
+#define __objStatement
+
 class objStatement {
 public:
   int sequence;
@@ -10,3 +13,5 @@ public:
   void setLine(char* line);
   int getLine(char* line);
 };
+
+#endif
