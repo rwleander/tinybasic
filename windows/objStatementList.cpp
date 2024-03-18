@@ -16,8 +16,8 @@ void objStatementList::begin() {
 //  clear method
 
 void objStatementList::clear() {
-  for (int i =0; i<MAX_LINES; i++) {
-    if (statementList[i]= 0) {
+  for (int i =0; i<count; i++) {
+    if (statementList[i]!= 0) {
       delete statementList[i];
     }
 
@@ -61,6 +61,7 @@ int objStatementList::add(objStatement* stmt) {
 
   if (strlen(stmt->text) == 0) {
     remove(n);
+	delete stmt;
     return count;
   }
 

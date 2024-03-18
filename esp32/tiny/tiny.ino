@@ -8,10 +8,14 @@
 // functions
 
 void runTest();
+void checkHeap();
+
 
 //  globals
 
 objStatementList lst;
+int startHeap;
+
 
 //  setup
 
@@ -37,13 +41,15 @@ void loop() {
 }
 //  run a test
 void runTest() {
-	int free1 = ESP.getFreeHeap();
+	startHeap = ESP.getFreeHeap();
+	checkHeap();
 	
   Serial.println("add statements");
   objStatement* stmt10 = new objStatement("10 LET A = 1");
   objStatement* stmt20 = new objStatement("20 LET B = 2");
   objStatement* stmt30 = new objStatement("30 LET C = 3");
   objStatement* stmt40 = new objStatement("40 PRint C");
+  checkHeap();
   lst.add(stmt20);
   lst.add(stmt40);
   lst.add(stmt30);
@@ -53,42 +59,45 @@ void runTest() {
   assert(lst.statementList[2] == stmt30);
   assert(lst.statementList[3] == stmt40);
   assert(lst.count == 4);
-
+checkHeap();
 //  replace a line
 
   Serial.println("replace a line");
   objStatement* stmt30a = new objStatement("30 LET C = A + b");
-  lst.add(stmt30a);
+  checkHeap();
+  lst.add(stmt30a);  
   assert(lst.statementList[1] == stmt20);
   assert(lst.statementList[2] == stmt30a);
   assert(lst.statementList[3] == stmt40);
   assert(lst.count == 4);
+checkHeap();
 
 //  delete a line
 
   Serial.println("Delete a line");
   objStatement* stmt20a = new objStatement("30");
+  checkHeap();
   lst.add(stmt20a);
   assert(lst.statementList[1] == stmt20);
   assert(lst.statementList[2] == stmt40);
   assert(lst.count == 3);
+checkHeap();
 
 //  finally clear
 
   Serial.println("Clear the list");
   lst.clear();
   assert(lst.count == 0);
-
-//  check for memory leaks
-
-int free2 = ESP.getFreeHeap();
-if (free1 < free2) {
-	Serial.print("Possible memory leak - ");
-	Serial.println(free2 - free1);
-	
-}
+checkHeap();
 
 // done
 
   Serial.println("Tests complete");
+}
+
+
+//  display current heap size
+void checkHeap() {
+	Serial.print("Heap: ");
+	Serial.println(startHeap - ESP.getFreeHeap());
 }
