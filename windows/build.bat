@@ -1,1 +1,1 @@
-cl /EHsc testStatementList.cpp objStatementList.cpp objStatement.cpp  
+cl /EHsc tiny.cpp objStatementList.cpp objStatement.cpp  
