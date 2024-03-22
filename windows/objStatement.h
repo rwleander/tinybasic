@@ -12,6 +12,7 @@ public:
   objStatement(char* line);
   void setLine(char* line);
   int getLine(char* line);
+   bool isValid(char* line);
 };
 
 #endif

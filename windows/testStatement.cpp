@@ -43,6 +43,13 @@ objStatement stmt3 = objStatement("50");
 assert(stmt3.sequence == 50);
 assert(strlen(stmt3.text) == 0);
 
+// test isValid method
+
+printf("test isValid method\n");
+objStatement validator;
+assert(validator.isValid("10 LET A = 1") == 1);
+assert(validator.isValid("2x LET B = 2") == 0);
+
 // done
 
   printf("Tests complete\n");
