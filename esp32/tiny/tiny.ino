@@ -1,21 +1,26 @@
-//  test objVariables with m5 stick
+//  tiny basic for ESP32
 
 #include <M5StickC.h>
-#include <assert.h>
+
 #include "objStatement.h"
 #include "objStatementList.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
 // functions
 
-void runTest();
+void upshift(char* buff, String* txt);
+void doCommand(char* buff);
+void listCode();
 void checkHeap();
-
 
 //  globals
 
-objStatementList lst;
+objStatementList codeList;
 int startHeap;
-
 
 //  setup
 
@@ -25,78 +30,103 @@ void setup() {
   M5.Lcd.setCursor(0, 30, 4);
   M5.Lcd.println("Tiny Basic");
   
-  Serial.begin(115200);  
-  lst.begin();
+  Serial.begin(115200);      
+  Serial.printf(">");
+  
+  codeList.begin();
+  	startHeap = ESP.getFreeHeap();
 }
 
-//  loop look for button press
+//  loop read console and do command
 
 void loop() {  	  	
-	 if (M5.BtnA.read() == 1) {		   
-    runTest();
-  }
+String txt;
+char buff[100];
 
-  m5.update();
-  delay(250);  
+txt = Serial.readStringUntil('\n');
+
+if (txt.length() > 0) {	
+upshift(buff, &txt);		
+Serial.printf("%s\n", buff);
+
+doCommand(buff);
+Serial.printf(">");
 }
-//  run a test
-void runTest() {
-	startHeap = ESP.getFreeHeap();
-	checkHeap();
+}
+
+
+//  convert string to char array and upshift text
+
+void upshift(char* buff, String* txt) {
+	for (int i=0; i<100; i++) {
+		buff[i] = '\0';
+		
+		if (i < txt->length() - 1) {
+		  if ((txt->charAt(i) >= 'a') && (txt->charAt(i) <= 'z')) {
+  			buff[i] = txt->charAt(i) + 'A' - 'a';
+	  }
+	  else {		  
+	  if (txt->charAt(i) != '\n') {
+  	buff[i] = txt->charAt(i);
+	  }
+}
+}
+	}
+}
 	
-  Serial.println("add statements");
-  objStatement* stmt10 = new objStatement("10 LET A = 1");
-  objStatement* stmt20 = new objStatement("20 LET B = 2");
-  objStatement* stmt30 = new objStatement("30 LET C = 3");
-  objStatement* stmt40 = new objStatement("40 PRint C");
-  checkHeap();
-  lst.add(stmt20);
-  lst.add(stmt40);
-  lst.add(stmt30);
-  lst.add(stmt10);
-  assert(lst.statementList[0] == stmt10);
-  assert(lst.statementList[1] == stmt20);
-  assert(lst.statementList[2] == stmt30);
-  assert(lst.statementList[3] == stmt40);
-  assert(lst.count == 4);
-checkHeap();
-//  replace a line
+//  process command
 
-  Serial.println("replace a line");
-  objStatement* stmt30a = new objStatement("30 LET C = A + b");
-  checkHeap();
-  lst.add(stmt30a);  
-  assert(lst.statementList[1] == stmt20);
-  assert(lst.statementList[2] == stmt30a);
-  assert(lst.statementList[3] == stmt40);
-  assert(lst.count == 4);
-checkHeap();
+void doCommand(char* buff) {
+	objStatement validator;
+	
+	if (strcmp(buff, "NEW") == 0) {
+		codeList.clear();
+		Serial.printf("Ok\n");
+		return;
+	}
+	
+	if (strcmp(buff, "LIST") == 0) {
+		  listCode();
+		  return;
+	}
+	
+		if (strcmp(buff, "MEM") == 0) {		
+			checkHeap();
+			return;
+		}
 
-//  delete a line
-
-  Serial.println("Delete a line");
-  objStatement* stmt20a = new objStatement("30");
-  checkHeap();
-  lst.add(stmt20a);
-  assert(lst.statementList[1] == stmt20);
-  assert(lst.statementList[2] == stmt40);
-  assert(lst.count == 3);
-checkHeap();
-
-//  finally clear
-
-  Serial.println("Clear the list");
-  lst.clear();
-  assert(lst.count == 0);
-checkHeap();
-
-// done
-
-  Serial.println("Tests complete");
+if (validator.isValid(buff) == 1) {
+	objStatement* stmt = new objStatement(buff);
+	codeList.add(stmt);
+	Serial.printf("Ok\n");
+	return;
+}	
+		Serial.printf("Unknown command\n");
 }
 
+
+//  list the program codeList
+void listCode() {
+	objStatement* stmt;
+	
+	//  if no code, say sopen
+	if (codeList.count == 0) {
+		Serial.printf("Nothing to list\n");		
+		return;
+	}
+
+//  otherwise, list the code
+
+for (int i=0; i<codeList.count; i++){	
+stmt = codeList.statementList[i]; 
+Serial.printf("%d %s\n", stmt->sequence, stmt->text);
+}
+
+Serial.printf("Ok\n");
+}	
 
 //  display current heap size
+
 void checkHeap() {
 	Serial.print("Heap: ");
 	Serial.println(startHeap - ESP.getFreeHeap());

@@ -51,3 +51,23 @@ int objStatement::getLine(char* line) {
   int n = sprintf(line, "%d %s", sequence, text);
   return n;
 }
+
+//  make sure the text is a valid statement
+
+bool objStatement::isValid(char* line) {
+	int i = 0;
+	
+	while (i < strlen(line)) {
+		if (line[i] == ' ') {
+return 1;
+		}
+	
+	if ((line[i] < '0') || (line[i] > '9')) {
+return 0;
+	}
+		
+	i++;	
+	}
+
+return 1;
+}
