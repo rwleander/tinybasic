@@ -104,6 +104,25 @@ int objStatementList::find(int sequence) {
   }
 }
 
+//  get a sequence number from the list by index
+
+int objStatementList::getSequence(int i) {
+	if ((i >= 0) && (i < count)) {
+		return statementList[i]->sequence;
+	}
+	
+	return -1;
+}
+
+//  return text from list by index
+
+char* objStatementList::getText(int i) {
+	if ((i >= 0) && (i < count)) {
+		return statementList[i]->text;
+	}
+	
+	return "";
+}
 
 //  replace a line// delete old, replace with new
 

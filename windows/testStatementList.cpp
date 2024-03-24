@@ -83,12 +83,19 @@ int main() {
   assert(lst.statementList[1] == stmt1a);
   assert(lst.statementList[2] == stmt3a);
 
+//  test getSequence and getText methods
+
+printf("Testing getSequence and getText methods\n");
+assert(lst.getSequence(0) == 10);
+assert (strcmp(lst.getText(0), "LET A = 1") == 0);
+
 //  test the clear method
 
   printf("Testing clear   method\n");
   lst.clear();
   assert(lst.count == 0);
   assert(lst.statementList[0] == 0);
+
 
 //  final test
 

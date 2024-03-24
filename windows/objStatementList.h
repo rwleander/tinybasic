@@ -11,6 +11,8 @@ public:
   void begin();
   void clear();
   int add(objStatement* stmt);
+  int getSequence(int i);
+  char* getText(int i);
 
 //  helper methods - should be private
 
