@@ -1,1 +1,1 @@
-cl /EHsc tiny.cpp objStatementList.cpp objStatement.cpp  
+cl /EHsc testRuntime.cpp objRuntime.cpp
