@@ -54,15 +54,28 @@ switch(ch) {
 		tokenData[tx] = '\0';
 		tx++;
 	}
+	last = ' ';
 	break;
-	
+
+case ',':
+case ';':
+if (last != ' ') {
+	tokenData[tx] = '\0';
+	tx++;
+}	
+
+tokenData[tx] = ch;
+tokenData[tx + 1] = '\0';
+tx += 2;
+last = ' ';
+break;
+
 	default:
 	tokenData[tx] = ch;
 	tx++;	
+	last = ch;
 	break;
 }	
-
-last = ch;
 	}	
 	
 	tokenData[tx] = '\0';
