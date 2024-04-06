@@ -39,8 +39,13 @@ int objStatementList::add(objStatement* stmt) {
   }
 
 //  add to end of list
+//  note: if past capacity, delete the statement and quit
 
   if (statementList[count - 1]->sequence < stmt->sequence) {
+	  if (count >= MAX_LINES) {
+		  delete stmt;
+		  return count;
+	  }
     statementList[count] = stmt;
     count++;
     return count;
@@ -146,6 +151,13 @@ void objStatementList::insert(objStatement* stmt, int n) {
   if ((n < 0) || (n >= count)) {
     return;
   }
+
+//  if already at capacity, delete the statement and quit
+
+if (count >= MAX_LINES) {
+	delete stmt;
+	return;
+}
 
 //  otherwise, insert
 

@@ -9,6 +9,7 @@
 
 int main() {
   objStatementList lst;
+  char buff[100];
   int n;
 
 //  test begin  method
@@ -19,7 +20,7 @@ int main() {
   assert(lst.statementList[MAX_LINES - 1] == 0);
   assert (lst.count == 0);
 
-//  test add methodprintf("Testing begin method\n");
+//  test add method 
 
   printf("Testing initial add  method\n");
   objStatement* stmt1 = new objStatement("10 LET A = 1");
@@ -139,6 +140,18 @@ assert (strcmp(lst.getText(0), "LET A = 1") == 0);
   printf("Clear the list\n");
   lst.clear();
   assert(lst.count == 0);
+
+//  test exceptions
+//  over-fill the list
+
+printf("Testing overflow handler\n");
+n = 10;
+while (n < 300) {
+	  sprintf(buff, "%d LET A = 0", n);	  
+	  lst.add(new objStatement(buff));
+	  n++;
+}
+assert(lst.count == MAX_LINES);
 
 // done
 

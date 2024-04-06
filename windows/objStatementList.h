@@ -1,5 +1,8 @@
 //  objStatementList.h - list of all program statements
 
+#ifndef __objStatementList
+#define __objStatementList
+
 #include "objStatement.h"
 #define MAX_LINES 25
 
@@ -21,3 +24,5 @@ public:
   void insert(objStatement* stmt, int n);
   void remove(int n);
 };
+
+#endif
