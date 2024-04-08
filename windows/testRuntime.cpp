@@ -58,17 +58,15 @@ printf("Testing print with one number\n");
 n = runtime.findTokens("PRINT 5");
 assert(n == 2);
 ok = runtime.print(buff);
-assert(ok == 0);
+assert(ok == TRUE);
 assert (strcmp(buff, "5") == 0);
 
 printf("Testing print with one literal\n");
 n = runtime.findTokens("PRINT \"This is a test\"");
 assert(n == 2);
 ok = runtime.print(buff);
-assert(ok == 0);
+assert(ok == TRUE);
 assert (strcmp(buff, "This is a test") == 0);
-
-
 
 //  done
 

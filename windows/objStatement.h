@@ -3,6 +3,9 @@
 #ifndef __objStatement
 #define __objStatement
 
+#define TRUE 1
+#define FALSE 0
+
 class objStatement {
 public:
   int sequence;

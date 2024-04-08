@@ -4,6 +4,8 @@
 #include "objStatementList.h"
 
 #define MAX_TOKENS 25
+#define TRUE 1
+#define FALSE 0
 
 class objRuntime {
 	public:  

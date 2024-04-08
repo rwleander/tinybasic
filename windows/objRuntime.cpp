@@ -15,11 +15,11 @@
 bool objRuntime::print(char* output) {
     if (count < 2) {
         strcpy(output, "");
-        return 0;
+        return TRUE;
     }
     
     strcpy(output, tokens[1]);
-    return 0;
+    return TRUE;
 }
 
 //  find tokens in a line of text
@@ -56,7 +56,7 @@ count = 0;
 //  copy the text into a list of tokens separated by nulls ('\0')
 
 void objRuntime::copyTokens(char* text) {
-    bool inQuotes = 1;
+    bool inQuotes = FALSE;
     
     char ch;
     char last = ' ';
@@ -68,14 +68,11 @@ void objRuntime::copyTokens(char* text) {
     
 switch(ch) {
     case '"':
-      if (inQuotes == 0)
-        inQuotes = 1;
-      else
-        inQuotes = 0;
-      break;
+      inQuotes = ! inQuotes;
+	  break;
     
     case ' ':      	
-      if (inQuotes == 0) {
+      if (inQuotes == TRUE) {
         tokenData[tx] = ch;
         tx++;
         break;
@@ -93,7 +90,7 @@ case ';':
 case '(':
 case ')':
 
-      if (inQuotes == 0) {
+      if (inQuotes == TRUE) {
         tokenData[tx] = ch;
         tx++;
         break;

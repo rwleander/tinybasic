@@ -15,7 +15,7 @@ void listCode();
 //  globals
 
 objStatementList codeList;
-bool quitFlag = 0;
+bool quitFlag = FALSE;
 
 //  main
 int main() {
@@ -27,7 +27,7 @@ int main() {
 
 //  command loop
 
-  while (quitFlag == 0) {
+  while (quitFlag == FALSE) {
     strcpy(buff, "");
     printf(">");
     fgets(buff, 99, stdin);
@@ -73,7 +73,7 @@ void doCommand(char* buff) {
   }
 
   if (strcmp(buff, "QUIT") == 0) {
-    quitFlag = 1;
+    quitFlag = TRUE;
     return;
   }
 

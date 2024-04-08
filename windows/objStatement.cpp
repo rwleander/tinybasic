@@ -59,15 +59,15 @@ bool objStatement::isValid(char* line) {
 	
 	while (i < strlen(line)) {
 		if (line[i] == ' ') {
-return 1;
+return TRUE;
 		}
 	
 	if ((line[i] < '0') || (line[i] > '9')) {
-return 0;
+return FALSE;
 	}
 		
 	i++;	
 	}
 
-return 1;
+return TRUE;
 }
