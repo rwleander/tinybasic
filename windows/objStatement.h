@@ -3,13 +3,12 @@
 #ifndef __objStatement
 #define __objStatement
 
-#define TRUE 1
-#define FALSE 0
+#include "constants.h"
 
 class objStatement {
 public:
   int sequence;
-  char text[60];
+  char text[MAX_STRING];
 
   objStatement();
   objStatement(char* line);

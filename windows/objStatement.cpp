@@ -1,8 +1,9 @@
 //  objStatement.cpp - container for a line of basic code
 
+#include "objStatement.h"
+
 #include <string.h>
 #include <stdio.h>
-#include "objStatement.h"
 
 //  default constructor
 

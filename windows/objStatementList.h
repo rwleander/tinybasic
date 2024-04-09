@@ -4,7 +4,7 @@
 #define __objStatementList
 
 #include "objStatement.h"
-#define MAX_LINES 25
+#include "constants.h"
 
 class objStatementList {
 public:
