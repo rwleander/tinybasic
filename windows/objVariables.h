@@ -1,5 +1,10 @@
 //  objVariables.h - collection of variables
 
+#ifndef __objVariables
+#define __objVariables
+
+#include "constants.h"
+
 class objVariables {
 public:
   float values[26];
@@ -11,3 +16,5 @@ public:
 
   int getIndex(char v);
 };
+
+#endif
