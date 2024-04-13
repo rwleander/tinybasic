@@ -93,11 +93,76 @@ rpnCount++;
 opStack[opCount - 1] = token;	
 }
 	
-  
+	//  calculate results
+	
+	float objExpression::calculate() {
+		char op;
+		char* lastChar[2];
+		float x, y, z;
+		
+		
+		//  if nothing in rpn list, quit
+		
+		if (rpnCount == 0) return 0.0;
+		
+		//  run the calculator
+		
+		calcCount = 0;		
+		for (int i = 0; i < rpnCount; i++) {
+			if (isOperator(rpn[i]) == TRUE) {
+				if (calcCount < 2) return 0.0;
+								
+		op = rpn[i][0];
+		x = calcStack[calcCount - 2];
+		y = calcStack[calcCount - 1];
+		z = 0.0;		
+		//  printf("token: %s, stack count: %d, x: %f, y: %f\n", rpn[i], calcCount, x, y);
+		
+switch (op) {
+	case '+': 
+	z = x + y;
+	break;
+	
+	case '-':
+	z = x - y;
+	break;
+	
+	case '*':
+	z = x * y;
+	break;
+	
+	case '/':
+	if (y == 0.0) {
+		z = 0.0;
+	} 
+		else {
+		z = x / y;
+	}
+		break;
+	}
+	
+	calcStack[calcCount - 1] = 0.0;
+	calcStack[calcCount - 2] = z;
+	calcCount--;	
+}				
+			else {				
+				calcStack[calcCount] = strtof(rpn[i], lastChar);
+				//  printf("Token: %s, stack count: %d, value: %f\n", rpn[i], calcCount, calcStack[calcCount]);
+				calcCount++;
+			}
+		}			
+		
+		if (calcCount == 1) {
+			return calcStack[0];
+		}
+		return 0.0;
+		}
+	
   //-------------------
   //  helper methods
   
   //  check if value is an operator
+  
   bool objExpression::isOperator(char* value) {
 	  if (getPrecedence(value) >= 0) return TRUE;
 	  return FALSE;

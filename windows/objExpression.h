@@ -13,6 +13,7 @@ public:
   void clear();
     void copy(char* values[], int n1, int n2);
 	void loadRpn();
+	float calculate();
 	bool isOperator(char* value);
 	int getPrecedence(char* value);
 	
@@ -20,8 +21,10 @@ public:
 protected:
 	  char* operators[MAX_OPERATORS] = {"+", "-", "*", "/", "^"};
 	  char* opStack[MAX_TOKENS];
+	  float calcStack[MAX_OPERATORS];
 	  int opCount = 0;
 	  int rpnCount = 0;
+	  int calcCount = 0;
 
 void setOperator(char* token);
 	  
