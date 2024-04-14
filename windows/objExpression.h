@@ -2,7 +2,7 @@
 
 #include "constants.h"
 
-#define MAX_OPERATORS 5
+#define MAX_OPERATORS 7
 
 class objExpression {
 public:
@@ -19,7 +19,7 @@ public:
 	
 	
 protected:
-	  char* operators[MAX_OPERATORS] = {"+", "-", "*", "/", "^"};
+	  char* operators[MAX_OPERATORS] = {"+", "-", "*", "/", "^", "(", ")"};
 	  char* opStack[MAX_TOKENS];
 	  float calcStack[MAX_OPERATORS];
 	  int opCount = 0;

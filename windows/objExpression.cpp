@@ -77,9 +77,45 @@ if (opCount == 0) {
 	return;
 }
 	
-//   if token has higher precedence than top of op stack, just address
+	
+//  if left paren, add to op stack	
+
+if (strcmp(token, "(") == 0) {
+	opStack[opCount] = token;
+	opCount++;
+	return;
+}
+
+//  if right paren, copy any operators back from the op stack to left paren then remove paren
+
+if (strcmp(token, ")") == 0) {
+	opCount--;
+	if (opCount < 0) {
+		opCount = 0;
+		return;
+	}
+
+	while ((strcmp(opStack[opCount], "(") != 0) && (opCount > 0)) {
+		rpn[rpnCount] = opStack[opCount];
+		rpnCount++;
+		opCount--;		
+	}
+	
+	return;
+}
+
+//  if last operator was open paren, add token to op stack
 
 char* op = opStack[opCount - 1];
+if (strcmp(op, "(") == 0) {
+	opStack[opCount] = token;
+	opCount++;
+	return;
+}
+
+
+//  if new token has precedence over op stack, just add to stack 
+ 
 if (getPrecedence(token) > getPrecedence(op)) {
 	opStack[opCount] = token;
 	opCount++;

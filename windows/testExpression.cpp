@@ -18,6 +18,9 @@ char* test1[] = {"1", "+", "2"};
 char* test2[] = {"LET", "A", "=", "A", "+", "B", "-", "C"};
 char* test3[] = {"2", "*", "3", "+", "4"};
 char* test4[] = {"2", "+", "3", "*", "4"};
+char* test5[] = {"2", "*", "3", "+", "4", "*", "5"};
+char* test6[] = {"(", "2", "+", "3", ")", "*", "(", "4", "+", "5", ")"};
+
 
 //  start tests
 
@@ -98,8 +101,39 @@ printf("Testing calcuate again\n");
 f = expr.calculate();
 assert (f == 14);
 
+//  test longer expression
 
+printf("Testing calc of longer expression\n");
+expr.copy(test5, 0, 6);
+assert(expr.count == 7);
+expr.loadRpn();
+assert(strcmp(expr.rpn[0], "2") == 0);
+assert(strcmp(expr.rpn[1], "3") == 0);
+assert(strcmp(expr.rpn[2], "*") == 0);
+assert(strcmp(expr.rpn[3], "4") == 0);
+assert(strcmp(expr.rpn[4], "5") == 0);
+assert(strcmp(expr.rpn[5], "*") == 0);
+assert(strcmp(expr.rpn[6], "+") == 0);
 
+f = expr.calculate();
+assert (f == 26);
+
+//  test expression with parens
+
+printf("Testing calc with parens\n");
+expr.copy(test6, 0, 10);
+assert(expr.count == 11);
+expr.loadRpn();
+assert(strcmp(expr.rpn[0], "2") == 0);
+assert(strcmp(expr.rpn[1], "3") == 0);
+assert(strcmp(expr.rpn[2], "+") == 0);
+assert(strcmp(expr.rpn[3], "4") == 0);
+assert(strcmp(expr.rpn[4], "5") == 0);
+assert(strcmp(expr.rpn[5], "+") == 0);
+assert(strcmp(expr.rpn[6], "*") == 0);
+
+f = expr.calculate();
+assert (f == 45);
   
   //  done
   
