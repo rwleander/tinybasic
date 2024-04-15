@@ -6,8 +6,15 @@
 #include <stdio.h>
 #include <string.h>
 
+//  evaluate an expression
 
-
+float objExpression::evaluate(char* values[], int n1, int n2, objVariables &vars) {
+	clear();
+	copy(values, n1, n2);
+	loadRpn();	
+	return calculate(vars);	
+}
+	
 //  clear tokens
 
 void objExpression::clear() {
@@ -131,8 +138,8 @@ opStack[opCount - 1] = token;
 	
 	//  calculate results
 	
-	float objExpression::calculate() {
-		char op;
+	float objExpression::calculate(objVariables &vars) {
+		char op, ch;
 		char* lastChar[2];
 		float x, y, z;
 		
@@ -182,9 +189,14 @@ switch (op) {
 	calcCount--;	
 }				
 			else {				
+			ch = rpn[i][0];
+			if ((ch >='A') && (ch <= 'Z')) {
+				calcStack[calcCount] = vars.getVariable(ch);				
+			}
+			else {
 				calcStack[calcCount] = strtof(rpn[i], lastChar);
-				//  printf("Token: %s, stack count: %d, value: %f\n", rpn[i], calcCount, calcStack[calcCount]);
-				calcCount++;
+			}
+			calcCount++;
 			}
 		}			
 		

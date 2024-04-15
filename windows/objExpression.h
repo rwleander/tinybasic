@@ -1,6 +1,7 @@
 //  expression parser and calculator
 
 #include "constants.h"
+#include "objVariables.h"
 
 #define MAX_OPERATORS 7
 
@@ -9,11 +10,12 @@ public:
   char* tokens[MAX_TOKENS];
   char* rpn[MAX_TOKENS];
   int count = 0;
-  
+
+float evaluate(char* values[], int n1, int n2, objVariables &vars);  
   void clear();
     void copy(char* values[], int n1, int n2);
 	void loadRpn();
-	float calculate();
+	float calculate(objVariables &vars);
 	bool isOperator(char* value);
 	int getPrecedence(char* value);
 	

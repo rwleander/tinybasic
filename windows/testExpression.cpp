@@ -10,6 +10,7 @@
 
 int main() {
   objExpression expr;
+  objVariables vars;  
   float f = 0.0;
   
 //  test cases
@@ -20,7 +21,11 @@ char* test3[] = {"2", "*", "3", "+", "4"};
 char* test4[] = {"2", "+", "3", "*", "4"};
 char* test5[] = {"2", "*", "3", "+", "4", "*", "5"};
 char* test6[] = {"(", "2", "+", "3", ")", "*", "(", "4", "+", "5", ")"};
+char* test7[] = {"A", "+", "B"};
 
+vars.begin();
+vars.setVariable('A', 3);
+vars.setVariable('B', 4);
 
 //  start tests
 
@@ -80,7 +85,7 @@ assert(strcmp(expr.rpn[4], "+") == 0);
 //  calculate results
 
 printf("Testing calcuate\n");
-f = expr.calculate();
+f = expr.calculate(vars);
 assert (f == 10);
 
 //  second test
@@ -98,7 +103,7 @@ assert(strcmp(expr.rpn[4], "+") == 0);
 //  calculate results
 
 printf("Testing calcuate again\n");
-f = expr.calculate();
+f = expr.calculate(vars);
 assert (f == 14);
 
 //  test longer expression
@@ -115,7 +120,7 @@ assert(strcmp(expr.rpn[4], "5") == 0);
 assert(strcmp(expr.rpn[5], "*") == 0);
 assert(strcmp(expr.rpn[6], "+") == 0);
 
-f = expr.calculate();
+f = expr.calculate(vars);
 assert (f == 26);
 
 //  test expression with parens
@@ -132,9 +137,20 @@ assert(strcmp(expr.rpn[4], "5") == 0);
 assert(strcmp(expr.rpn[5], "+") == 0);
 assert(strcmp(expr.rpn[6], "*") == 0);
 
-f = expr.calculate();
+f = expr.calculate(vars);
 assert (f == 45);
-  
+
+//  test evaluate method
+printf("Testing evaluate method\n");
+f = expr.evaluate(test6, 0, 10, vars);
+assert (f == 45);
+
+//  test with variables
+
+printf ("Testing with variables\n");
+f = expr.evaluate(test7, 0, 2, vars);
+assert(f == 7);
+   
   //  done
   
   printf("Done\n");

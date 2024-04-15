@@ -1,1 +1,1 @@
-cl /EHsc testExpression.cpp objExpression.cpp  
+cl /EHsc testExpression.cpp objExpression.cpp objVariables.cpp  
