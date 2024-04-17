@@ -3,19 +3,24 @@
 #include "objRuntime.h"
 #include "objStatement.h"
 #include "objStatementList.h"
+#include "objVariables.h"
 
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
 
 int main() {
-  objRuntime runtime;
+  objRuntime runtime;  
   char buff[100];
   int n;
   bool ok;
+
+//  setup
   
   printf("Testing runtime\n");
-  
+
+runtime.begin();
+
   //  test find token methods
   //  simple test
   
@@ -67,6 +72,33 @@ assert(n == 2);
 ok = runtime.print(buff);
 assert(ok == TRUE);
 assert (strcmp(buff, "This is a test") == 0);
+
+
+//  test let
+
+printf ("Testing basic let statement\n");
+n = runtime.findTokens("LET A = 1");
+assert(n == 4);
+ok = runtime.let();
+assert(ok == TRUE);
+assert (runtime.varList.getVariable('A') == 1); 
+
+//  test more complex let statement\n
+
+printf ("Testing longer let statement\n");
+n = runtime.findTokens("LET B = 2 * (3 + 4)"); 
+ok = runtime.let();
+assert(ok == TRUE);
+assert(runtime.varList.getVariable('B') == 14);
+
+//  test let with variables
+
+printf ("Testing  let statement with variables\n");
+n = runtime.findTokens("LET C = A + B");
+ok = runtime.let();
+assert(ok == TRUE);
+assert(runtime.varList.getVariable('C') == 15);
+
 
 //  done
 

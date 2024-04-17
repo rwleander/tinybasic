@@ -3,11 +3,42 @@
 #include "objRuntime.h"
 #include "objStatement.h"
 #include "objStatementList.h"
+#include "objVariables.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
+//  initialize 
+
+void objRuntime::begin() {	
+	varList.begin();
+}
+
+//  execute let statement
+
+bool objRuntime::let() {
+	char var;
+	float value;
+	
+	
+	//  make sure we have the correct format
+	
+	if (count < 4) return FALSE;
+	if (strcmp(tokens[2], "=") != 0) return FALSE;
+	
+	//  make sure we have a valid variable
+	
+	var = tokens[1][0];
+	if ((var < 'A') || (var > 'Z')) return FALSE;
+	
+	//  now evaluate the expression
+	
+	value = expr.evaluate(tokens, 3, count - 1, varList);
+	varList.setVariable(var, value);
+	
+	return TRUE;
+}
 
 //  execute print statement and fill output_iterator//  note: return 0 if success, 1 if fail
 
