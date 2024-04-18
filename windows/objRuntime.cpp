@@ -15,9 +15,76 @@ void objRuntime::begin() {
 	varList.begin();
 }
 
+//  run the program found in codeList
+
+bool objRuntime::run(objStatementList &codeList) {	
+	int i;
+
+			
+	//  setup
+	
+	varList.clear();	
+	nextAddress = codeList.getSequence(0);
+	
+	//  loop through the code, executing statements
+	
+	while (nextAddress > 0) {
+	i = codeList.find(nextAddress);
+	if (i < 0) {
+		printf("Bad line number: %d\n", nextAddress);
+		return FALSE;
+	}
+	
+	sequence = codeList.getSequence(i);
+	text  = codeList.getText(i);
+	
+	//  get next address}
+//  if at end of code, set to -1
+	
+	i++;
+	if (i >= codeList.count) {
+		nextAddress = -1;
+	}
+	else {
+	nextAddress = codeList.getSequence(i);
+	}
+	
+	//  parse the statement
+	
+	if (findTokens(text) > 0) {
+		if (runCommand() == FALSE) {
+			return FALSE;
+		}		
+	}	
+	}	
+	
+	return TRUE;
+}
+
+//  run a command
+
+bool objRuntime::runCommand() {
+	
+	//  let
+	
+	if (strcmp(tokens[0], "LET") == 0) {
+		if (runLet() == TRUE) return TRUE;
+		
+		printf("%d %s\n", sequence, text);
+		printf("syntax error\n");
+		return FALSE;				
+	}
+	
+	//  bad statement
+	
+	printf("Bad command\n");
+	printf("Bad statement\n");
+	return FALSE;
+}
+
 //  execute let statement
 
-bool objRuntime::let() {
+bool objRuntime::runLet() {
 	char var;
 	float value;
 	

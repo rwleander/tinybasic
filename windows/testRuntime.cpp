@@ -11,6 +11,7 @@
 
 int main() {
   objRuntime runtime;  
+  objStatementList codeList;
   char buff[100];
   int n;
   bool ok;
@@ -20,6 +21,7 @@ int main() {
   printf("Testing runtime\n");
 
 runtime.begin();
+codeList.begin();
 
   //  test find token methods
   //  simple test
@@ -79,7 +81,7 @@ assert (strcmp(buff, "This is a test") == 0);
 printf ("Testing basic let statement\n");
 n = runtime.findTokens("LET A = 1");
 assert(n == 4);
-ok = runtime.let();
+ok = runtime.runLet();
 assert(ok == TRUE);
 assert (runtime.varList.getVariable('A') == 1); 
 
@@ -87,7 +89,7 @@ assert (runtime.varList.getVariable('A') == 1);
 
 printf ("Testing longer let statement\n");
 n = runtime.findTokens("LET B = 2 * (3 + 4)"); 
-ok = runtime.let();
+ok = runtime.runLet();
 assert(ok == TRUE);
 assert(runtime.varList.getVariable('B') == 14);
 
@@ -95,10 +97,22 @@ assert(runtime.varList.getVariable('B') == 14);
 
 printf ("Testing  let statement with variables\n");
 n = runtime.findTokens("LET C = A + B");
-ok = runtime.let();
+ok = runtime.runLet();
 assert(ok == TRUE);
 assert(runtime.varList.getVariable('C') == 15);
 
+//  test basic run method
+
+printf("Testing basic run method\n");
+codeList.clear();
+codeList.add(new objStatement("10 LET A = 1"));
+codeList.add(new objStatement("20 LET B = 2"));
+codeList.add(new objStatement("30 LET C = A + B"));
+ok = runtime.run(codeList);
+assert(ok == TRUE);
+assert(runtime.varList.getVariable('A') == 1);
+assert(runtime.varList.getVariable('B') == 2);
+assert(runtime.varList.getVariable('C') == 3);
 
 //  done
 
