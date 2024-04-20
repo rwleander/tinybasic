@@ -19,7 +19,6 @@ void objRuntime::begin() {
 
 bool objRuntime::run(objStatementList &codeList) {	
 	int i;
-
 			
 	//  setup
 	
@@ -57,7 +56,8 @@ bool objRuntime::run(objStatementList &codeList) {
 		}		
 	}	
 	}	
-	
+
+printf("Done\n");	
 	return TRUE;
 }
 

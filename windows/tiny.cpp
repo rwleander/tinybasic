@@ -1,6 +1,7 @@
 //  tiny basic interpreter - main program
 
 #include"objStatementList.h"
+#include "objRuntime.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,6 +16,7 @@ void listCode();
 //  globals
 
 objStatementList codeList;
+objRuntime runtime;
 bool quitFlag = FALSE;
 
 //  main
@@ -24,6 +26,9 @@ int main() {
 //  title
 
   printf("Tiny Basic for the ESP32\n");
+
+codeList.begin();
+runtime.begin();
 
 //  command loop
 
@@ -72,6 +77,16 @@ void doCommand(char* buff) {
     return;
   }
 
+if (strcmp(buff, "RUN") == 0) {
+	if (codeList.count == 0) {
+		printf("Nothing to run\n");
+		return;
+	}
+	
+	runtime.run(codeList);	
+	return;
+}
+	
   if (strcmp(buff, "QUIT") == 0) {
     quitFlag = TRUE;
     return;
