@@ -12,7 +12,8 @@ int main() {
   objExpression expr;
   objVariables vars;
   float f = 0.0;
-
+  bool ok = TRUE;
+  
 //  test cases
 
   char* test1[] = {"1", "+", "2"};
@@ -22,6 +23,8 @@ int main() {
   char* test5[] = {"2", "*", "3", "+", "4", "*", "5"};
   char* test6[] = {"(", "2", "+", "3", ")", "*", "(", "4", "+", "5", ")"};
   char* test7[] = {"A", "+", "B"};
+  
+  char* testError1[] = {"A", "+", "*", "B"};
 
   vars.begin();
   vars.setVariable('A', 3);
@@ -152,6 +155,37 @@ int main() {
   f = expr.evaluate(test7, 0, 2, vars);
   assert(f == 7);
 
+//  test get token typedef
+printf("Testing get token types\n");
+assert(expr.getTokenType("1.23") == __number);
+assert(expr.getTokenType("A") == __variable);
+assert (expr.getTokenType("*") == __operator);
+assert (expr.getTokenType("(") == __leftParen);
+assert (expr.getTokenType(")") == __rightParen);
+assert(expr.getTokenType("2.z") == __unknown);
+
+//  test for errors
+
+printf ("Testing is valid with no errors method\n");
+ok = expr.isValid(test7, 0, 2);
+assert (ok == TRUE);
+
+//  test valid with parens
+
+printf ("Testing is valid with parens\n");
+ok = expr.isValid(test6, 0, 10);
+assert (ok == TRUE);
+
+printf ("Testing is valid with operator error errors method\n");
+ok = expr.isValid(testError1, 0, 3);
+assert (ok == FALSE);
+
+//  test with missing parens
+printf ("Testing is valid with missing parens\n");
+ok = expr.isValid(test6, 0, 9);
+assert (ok == FALSE);
+
+ 
 //  done
 
   printf("Done\n");

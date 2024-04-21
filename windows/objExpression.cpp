@@ -14,7 +14,7 @@ float objExpression::evaluate(char* values[], int n1, int n2, objVariables &vars
   loadRpn();
   return calculate(vars);
 }
-
+	
 //  clear tokens
 
 void objExpression::clear() {
@@ -204,6 +204,99 @@ void objExpression::setOperator(char * token) {
   return 0.0;
 }
 
+//  see if expression is valid
+
+bool objExpression::isValid(char* tokens[], int n1, int n2) {
+	int thisTokenType = getTokenType(tokens[n1]);
+	int lastTokenType = 0;
+	int parenCount = 0;
+	
+	//  if only one expression, it must be a number or variables
+	
+	if (n1 == n2) {
+	if (thisTokenType == __number) return TRUE;
+	if (thisTokenType == __variable) return TRUE;
+	return FALSE;
+	}
+	
+	//  first item cannot be an operator
+	
+	if (thisTokenType == __operator) return FALSE;
+	if (thisTokenType == __leftParen) parenCount++;
+		
+	//  check body of the expression
+	//  compare each token with prior
+	
+	lastTokenType = thisTokenType;
+		int i = n1 + 1;
+		while (i <= n2) {
+		thisTokenType = getTokenType(tokens[i]);
+		if (thisTokenType == __unknown) return FALSE;
+		
+		switch (thisTokenType) {
+			case __number:
+			case __variable:
+			if (lastTokenType == __number) return FALSE;
+			if (lastTokenType == __variable) return FALSE;
+			if (lastTokenType == __rightParen) return FALSE;
+			break;
+			
+			case __operator:
+			if (lastTokenType == __operator) return FALSE;
+			if (lastTokenType == __leftParen) return FALSE;
+			break;
+			
+			case __leftParen:
+			if (lastTokenType == __number) return FALSE;
+			if (lastTokenType == __variable) return FALSE;
+			parenCount++;
+			break;
+			
+			case __rightParen:
+			if (lastTokenType == __operator) return FALSE;
+			parenCount--;
+			break;					
+			}		
+			
+			lastTokenType = thisTokenType;
+			i++;
+	}
+	
+// 		last token cannot be an operator
+		
+		if (getTokenType(tokens[n2]) == __operator) return FALSE;
+		
+		//  make sure parens match
+		
+		if (parenCount != 0) return FALSE;
+	
+return TRUE;	
+	}
+	
+//  determine token typedef
+
+int objExpression::getTokenType(char* token) {
+	
+	//  parens
+	
+	if (strcmp(token, "(") == 0) return __leftParen;
+	if (strcmp(token,")") == 0) return __rightParen;
+	
+	//  operator
+	
+	if (isOperator(token) == TRUE) return __operator;
+	
+	//  numbers
+	
+	if (isNumeric(token) == TRUE) return __number;
+	
+	//  variables - starts with letter
+	
+	if ((token[0] >= 'A') && (token[0] <= 'Z')) return __variable;
+	
+	return __unknown;
+}
+
 //-------------------
 //  helper methods
 
@@ -224,3 +317,29 @@ bool objExpression::isOperator(char* value) {
   }
   return -1;
 }
+
+//  is this string numeric
+
+bool objExpression::isNumeric(char* token) {
+char ch;
+bool isNum = FALSE;
+int i = 0;
+
+
+	while (i < strlen(token)) {
+		ch = token[i];
+	isNum = FALSE;
+	if ((ch >= '0') && (ch <= '9')) isNum = TRUE;
+	if (ch == '.') isNum = TRUE;
+	if (ch == '-') isNum = TRUE;
+	if (ch == '+') isNum = TRUE;
+	
+	if (isNum == FALSE) return FALSE;
+	
+i++;	
+	}
+		
+	return TRUE;
+}
+
+
