@@ -64,17 +64,22 @@ assert(strcmp(runtime.tokens[9], ")") == 0);
 printf("Testing print with one number\n");
 n = runtime.findTokens("PRINT 5");
 assert(n == 2);
-ok = runtime.print(buff);
+ok = runtime.runPrint(buff);
 assert(ok == TRUE);
-assert (strcmp(buff, "5") == 0);
+assert (strcmp(buff, "5.000000") == 0);
 
 printf("Testing print with one literal\n");
 n = runtime.findTokens("PRINT \"This is a test\"");
 assert(n == 2);
-ok = runtime.print(buff);
+ok = runtime.runPrint(buff);
 assert(ok == TRUE);
 assert (strcmp(buff, "This is a test") == 0);
 
+printf("Testing print with one expression\n");
+n = runtime.findTokens("PRINT 2 + 2");
+ok = runtime.runPrint(buff);
+assert(ok == TRUE);
+assert(strcmp(buff, "4.000000") == 0);
 
 //  test let
 
@@ -100,6 +105,21 @@ n = runtime.findTokens("LET C = A + B");
 ok = runtime.runLet();
 assert(ok == TRUE);
 assert(runtime.varList.getVariable('C') == 15);
+
+//  test let with error
+
+printf ("Testing  let statement with error\n");
+n = runtime.findTokens("LET C = A +");
+ok = runtime.runLet();
+assert(ok == FALSE);
+assert(strcmp(runtime.msg, "Bad expression") == 0);
+
+
+printf ("Testing  let statement with another error\n");
+n = runtime.findTokens("LET = A + B");
+ok = runtime.runLet();
+assert(ok == FALSE);
+assert(strcmp(runtime.msg, "Bad statement") == 0);
 
 //  test basic run method
 

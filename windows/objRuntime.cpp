@@ -13,6 +13,7 @@
 
 void objRuntime::begin() {	
 	varList.begin();
+	strcpy(msg, "");
 }
 
 //  run the program found in codeList
@@ -64,21 +65,27 @@ printf("Done\n");
 //  run a command
 
 bool objRuntime::runCommand() {
-	
+	bool ok;
+		
 	//  let
 	
 	if (strcmp(tokens[0], "LET") == 0) {
-		if (runLet() == TRUE) return TRUE;
-		
-		printf("%d %s\n", sequence, text);
-		printf("syntax error\n");
-		return FALSE;				
+		return runLet();  
 	}
+	
+	//  print
+	
+		if (strcmp(tokens[0], "PRINT") == 0) {
+	ok = runPrint(printerBuff);
+if (ok == TRUE) {
+	printf("%s\n", printerBuff);
+}	
+return ok;
+		}
 	
 	//  bad statement
 	
-	printf("Bad command\n");
-	printf("Bad statement\n");
+	strcpy (msg, "Unknown statement");
 	return FALSE;
 }
 
@@ -87,21 +94,35 @@ bool objRuntime::runCommand() {
 bool objRuntime::runLet() {
 	char var;
 	float value;
-	
-	
+		
 	//  make sure we have the correct format
 	
-	if (count < 4) return FALSE;
-	if (strcmp(tokens[2], "=") != 0) return FALSE;
+	if (count < 4) {
+		strcpy(msg, "Bad statement");
+		return FALSE;
+	}
 	
+	if (strcmp(tokens[2], "=") != 0) {
+		strcpy (msg, "Bad statement");
+		return FALSE;
+	}
+		
 	//  make sure we have a valid variable
 	
 	var = tokens[1][0];
-	if ((var < 'A') || (var > 'Z')) return FALSE;
+if ((var < 'A') || (var > 'Z')) {
+strcpy(msg, "Bad statement");
+		return FALSE;
+		}
 	
 	//  now evaluate the expression
 	
-	value = expr.evaluate(tokens, 3, count - 1, varList);
+	if (expr.isValid(tokens, 3, count -1) != TRUE) {
+		strcpy(msg, "Bad expression");
+		return FALSE;
+	}		
+	
+		value = expr.evaluate(tokens, 3, count - 1, varList);
 	varList.setVariable(var, value);
 	
 	return TRUE;
@@ -109,14 +130,28 @@ bool objRuntime::runLet() {
 
 //  execute print statement and fill output_iterator//  note: return 0 if success, 1 if fail
 
-bool objRuntime::print(char* output) {
+bool objRuntime::runPrint(char* output) {
     if (count < 2) {
         strcpy(output, "");
         return TRUE;
     }
     
+	//  if literal, copy to output
+	if (tokens[1][0] == '"') {
+		stripQuotes(tokens[1]);
     strcpy(output, tokens[1]);
     return TRUE;
+	}
+
+//  evaluate expression
+if (expr.isValid(tokens, 1, count - 1) != TRUE) {
+	strcpy(msg, "Bad expression");
+	return FALSE;
+}	
+
+float f = expr.evaluate(tokens, 1, count - 1, varList);
+sprintf(output, "%f", f);
+return TRUE;	
 }
 
 //  find tokens in a line of text
@@ -166,6 +201,8 @@ void objRuntime::copyTokens(char* text) {
 switch(ch) {
     case '"':
       inQuotes = ! inQuotes;
+	  tokenData[tx] = ch;
+	  tx++;
 	  break;
     
     case ' ':      	
@@ -234,4 +271,35 @@ count++;
     }
     i++;
 }
+}
+
+//  remove quotes from string
+
+  void objRuntime::stripQuotes(char* txt) {
+  char txtWork[100];
+  int l;
+ 
+  
+  //  if no text, quit
+  
+  if (strlen(txt) == 0) return;
+  
+  //  if leading quote, remove, otherwise just copy
+  
+  if (txt[0] == '"') {
+	strcpy(txtWork, txt+1);  
+  }
+  else {
+	  strcpy (txtWork, txt);
+  }
+  
+  //  strip trailing quote
+  
+  l = strlen(txtWork) - 1;
+  if (txtWork[l] == '"') {
+	  txtWork[l] = '\0';
+  }
+  
+  //  copy the results back to txt
+  strcpy(txt, txtWork);  
 }
