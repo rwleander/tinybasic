@@ -29,7 +29,7 @@ bool objRuntime::run(objStatementList &codeList) {
 	//  loop through the code, executing statements
 	
 	while (nextAddress > 0) {
-	i = codeList.find(nextAddress);
+	i = codeList.findAddress(nextAddress);
 	if (i < 0) {
 		printf("Bad line number: %d\n", nextAddress);
 		return FALSE;
@@ -67,6 +67,12 @@ printf("Done\n");
 bool objRuntime::runCommand() {
 	bool ok;
 		
+		//  go to 
+		
+		if (strcmp(tokens[0], "GOTO") == 0) {
+			return runGoto();
+		}
+		
 	//  let
 	
 	if (strcmp(tokens[0], "LET") == 0) {
@@ -82,11 +88,38 @@ if (ok == TRUE) {
 }	
 return ok;
 		}
+
+//  remark
+	
+	if (strcmp(tokens[0], "REM") == 0) {
+		return runRem();
+	}
 	
 	//  bad statement
 	
 	strcpy (msg, "Unknown statement");
 	return FALSE;
+}
+
+//  run the go to statement
+
+bool objRuntime::runGoto() {
+	
+//  need a line number
+
+if (count < 2) {
+	strcpy(msg, "Bad statement");
+	return FALSE;
+}	
+
+//  evaluate expression
+if (expr.isValid(tokens, 1, count - 1) != TRUE) {
+	strcpy(msg, "Bad expression");
+	return FALSE;
+}
+
+nextAddress = expr.evaluate(tokens, 1, count -1, varList);
+	return TRUE;
 }
 
 //  execute let statement
@@ -152,6 +185,12 @@ if (expr.isValid(tokens, 1, count - 1) != TRUE) {
 float f = expr.evaluate(tokens, 1, count - 1, varList);
 sprintf(output, "%f", f);
 return TRUE;	
+}
+
+//  run remark - do nothing
+
+bool objRuntime::runRem() {
+	return TRUE;
 }
 
 //  find tokens in a line of text

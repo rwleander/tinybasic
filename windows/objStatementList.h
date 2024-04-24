@@ -16,10 +16,11 @@ public:
   int add(objStatement* stmt);
   int getSequence(int i);
   char* getText(int i);  
-  int find(int sequence);
-
-//  helper methods - should be private
+  int findAddress(int sequence);
   
+//  helper methods - should be private
+
+  int find(int sequence);  
   void replace(objStatement* stmt, int n);
   void insert(objStatement* stmt, int n);
   void remove(int n);

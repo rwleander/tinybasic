@@ -50,6 +50,18 @@ int main() {
   n = lst.find(15);
   assert(n == 1);
 
+//  test find address method
+
+  printf("Testing find    address method with exact match\n");
+  n = lst.findAddress(30);
+  assert(n == 2);
+
+//  test find address with missing line number
+
+  printf("Testing find    address method with missing line\n");
+  n = lst.findAddress(300);
+  assert(n == -1);
+
 //  test replace method
 
   printf("Testing replace method\n");

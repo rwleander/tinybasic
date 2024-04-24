@@ -121,6 +121,15 @@ ok = runtime.runLet();
 assert(ok == FALSE);
 assert(strcmp(runtime.msg, "Bad statement") == 0);
 
+//  test go to_char_type
+printf("Testing go to\n");
+n = runtime.findTokens("GOTO 50");
+ok = runtime.runGoto();
+assert(ok == TRUE);
+assert(runtime.nextAddress == 50);
+
+
+
 //  test basic run method
 
 printf("Testing basic run method\n");
