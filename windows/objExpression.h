@@ -27,8 +27,10 @@ public:
   void copy(char* values[], int n1, int n2);
   void loadRpn();
   float calculate(objVariables &vars);
+  bool compare(char* op, float f1, float f2);
   bool isValid(char* tokens[], int n1, int n2);
   bool isOperator(char* value);
+  bool isComparison(char* value);
   int getPrecedence(char* value);
   int getTokenType(char* token);
 

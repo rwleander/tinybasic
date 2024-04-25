@@ -21,7 +21,9 @@ int nextAddress = 0;
 
 void begin();
 bool run(objStatementList &codeList);
+
 bool runGoto();
+bool runIf();
 bool runLet();
   bool runPrint(char* output);
   bool runRem();

@@ -122,11 +122,28 @@ assert(ok == FALSE);
 assert(strcmp(runtime.msg, "Bad statement") == 0);
 
 //  test go to_char_type
+
 printf("Testing go to\n");
 n = runtime.findTokens("GOTO 50");
 ok = runtime.runGoto();
 assert(ok == TRUE);
 assert(runtime.nextAddress == 50);
+
+//  test if statement
+
+printf("Testing runIf method \n");
+n = runtime.findTokens("IF 4 <= 2 THEN 30");
+runtime.nextAddress = 20;
+ok = runtime.runIf();
+assert(ok == TRUE);
+assert(runtime.nextAddress == 20);
+
+n = runtime.findTokens("IF 4 >= 2 THEN 30");
+ok = runtime.runIf();
+assert(ok == TRUE);
+assert(runtime.nextAddress == 30);
+
+
 
 
 

@@ -67,10 +67,16 @@ printf("Done\n");
 bool objRuntime::runCommand() {
 	bool ok;
 		
-		//  go to 
+				//  go to 
 		
 		if (strcmp(tokens[0], "GOTO") == 0) {
 			return runGoto();
+		}
+		
+		// if
+		
+		if (strcmp(tokens[0], "IF") == 0) {
+			return runIf();
 		}
 		
 	//  let
@@ -119,6 +125,55 @@ if (expr.isValid(tokens, 1, count - 1) != TRUE) {
 }
 
 nextAddress = expr.evaluate(tokens, 1, count -1, varList);
+	return TRUE;
+}
+
+//  run if statement
+
+bool objRuntime::runIf() {
+	float fx1, fx2, fx3;
+	int n1 = 0;
+	int n2 = 0;
+	int i = 1;
+	bool err = FALSE;
+	
+	//  scan for tokens
+	
+	while (i < count) {
+		if (expr.isComparison(tokens[i]) == TRUE) n1 = i;
+		if (strcmp(tokens[i], "THEN") == 0) n2 = i;
+		i++;
+	}
+	
+	//  check for errors
+	
+	if (n1 * n2 == 0) {
+		strcpy(msg, "Bad statement");
+		return FALSE;
+	}
+	
+//  validate  expressions
+
+if (expr.isValid(tokens, 1, n1 - 1) != TRUE) err = TRUE; 
+if (expr.isValid(tokens, n1 + 1, n2 - 1) != TRUE) err = TRUE;
+if (expr.isValid(tokens, n2 + 1, count -1) != TRUE) err = TRUE;
+if (err == TRUE) {
+	strcpy(msg, "Bad expression");
+	return FALSE;
+}
+
+//  evaluate the expressions
+
+fx1 = expr.evaluate(tokens, 1, n1 - 1, varList);
+fx2 = expr.evaluate(tokens, n1 + 1, n2 - 1, varList);
+fx3 = expr.evaluate(tokens, n2 + 1, count - 1, varList);
+
+//  do the comparison
+
+if (expr.compare(tokens[n1], fx1, fx2) == TRUE) {
+	nextAddress = fx3;
+}
+
 	return TRUE;
 }
 

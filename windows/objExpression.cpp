@@ -14,7 +14,7 @@ float objExpression::evaluate(char* values[], int n1, int n2, objVariables &vars
   loadRpn();
   return calculate(vars);
 }
-	
+		
 //  clear tokens
 
 void objExpression::clear() {
@@ -204,6 +204,35 @@ void objExpression::setOperator(char * token) {
   return 0.0;
 }
 
+//  compare two numbers
+
+bool objExpression::compare(char* op, float f1, float f2) {	
+	int i = 0;
+	
+	//  run the comparisons, if any are true, we're done
+	
+	while (i < strlen(op)) {
+		switch(op[i]) {
+			case '<':
+			if (f1 < f2) return TRUE;
+			break;
+			
+			case '=':
+			if (f1 == f2) return TRUE;
+			break;
+			
+			case '>':
+			if (f1 > f2) return TRUE;
+			break;
+		}
+		
+		i++;
+	};
+		
+	return FALSE;
+}
+	
+
 //  see if expression is valid
 
 bool objExpression::isValid(char* tokens[], int n1, int n2) {
@@ -299,6 +328,23 @@ int objExpression::getTokenType(char* token) {
 
 //-------------------
 //  helper methods
+
+//  check if token is a comparison
+
+bool objExpression::isComparison(char* value) {
+	char* ops[] = {"=", "<", "<=", "<>", ">", ">="};
+	char* op;
+	int count = 6; 
+	int i = 0;
+	
+	while (i < count) {
+		op = ops[i];
+		if (strcmp(value, op) == 0) return TRUE;
+		i++;
+	}
+	
+	return FALSE;
+}
 
 //  check if value is an operator
 

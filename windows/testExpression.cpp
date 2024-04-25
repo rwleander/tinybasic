@@ -185,6 +185,19 @@ printf ("Testing is valid with missing parens\n");
 ok = expr.isValid(test6, 0, 9);
 assert (ok == FALSE);
 
+//  test is comparison method
+
+printf("Testing is comparison operator method\n");
+assert(expr.isComparison("<") == TRUE);
+assert(expr.isComparison("<>") == TRUE);
+assert(expr.isComparison("==") == FALSE);
+
+//  test compare method
+
+printf("Testing compare method\n");
+assert (expr.compare(">", 5, 2) == TRUE);
+assert (expr.compare("<=", 2, 5) == TRUE);
+ assert(expr.compare("=", 2, 3) == FALSE);
  
 //  done
 
