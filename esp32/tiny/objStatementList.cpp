@@ -39,8 +39,13 @@ int objStatementList::add(objStatement* stmt) {
   }
 
 //  add to end of list
+//  note: if past capacity, delete the statement and quit
 
   if (statementList[count - 1]->sequence < stmt->sequence) {
+	  if (count >= MAX_LINES) {
+		  delete stmt;
+		  return count;
+	  }
     statementList[count] = stmt;
     count++;
     return count;
@@ -71,6 +76,24 @@ int objStatementList::add(objStatement* stmt) {
   return count;
 }
 
+//  find adddress in list - if not found, return -1
+
+int objStatementList::findAddress(int sequence) {
+	
+	//  if empty, return -1
+	
+	if (count == 0) return -1;
+	
+	//  search list
+	int i = 0;
+	while (i < count) {
+if (statementList[i]->sequence == sequence) return i;
+i++;
+	}
+	
+	return -1;
+}
+
 //--------------------
 //  private methods
 
@@ -79,7 +102,7 @@ int objStatementList::add(objStatement* stmt) {
 
 int objStatementList::find(int sequence) {
 
-///  if nothing in list, return 0
+//  if nothing in list, return 0
 
   if (count == 0) {
     return 0;
@@ -146,6 +169,13 @@ void objStatementList::insert(objStatement* stmt, int n) {
   if ((n < 0) || (n >= count)) {
     return;
   }
+
+//  if already at capacity, delete the statement and quit
+
+if (count >= MAX_LINES) {
+	delete stmt;
+	return;
+}
 
 //  otherwise, insert
 

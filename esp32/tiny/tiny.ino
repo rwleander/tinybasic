@@ -4,6 +4,7 @@
 
 #include "objStatement.h"
 #include "objStatementList.h"
+#include "objRuntime.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,6 +21,7 @@ void checkHeap();
 //  globals
 
 objStatementList codeList;
+objRuntime runtime;
 int startHeap;
 
 //  setup
@@ -34,6 +36,7 @@ void setup() {
   Serial.printf(">");
 
   codeList.begin();
+  runtime.begin();
   startHeap = ESP.getFreeHeap();
 }
 
@@ -77,7 +80,7 @@ void upshift(char* buff, String* txt) {
 
 void doCommand(char* buff) {
   objStatement validator;
-
+ 
   if (strcmp(buff, "NEW") == 0) {
     codeList.clear();
     Serial.printf("Ok\n");
@@ -89,10 +92,24 @@ void doCommand(char* buff) {
     return;
   }
 
+if (strcmp(buff, "RUN") == 0) {
+	if (codeList.count == 0) {
+		Serial.printf("Nothing to run\n");
+		return;
+	}
+	
+	runtime.run(&Serial, codeList);	
+	return;
+}
+
+//  show memory
+
   if (strcmp(buff, "MEM") == 0) {
     checkHeap();
     return;
   }
+
+//  add a line of code
 
   if (validator.isValid(buff) == 1) {
     objStatement* stmt = new objStatement(buff);
@@ -104,12 +121,12 @@ void doCommand(char* buff) {
   Serial.printf("Unknown command\n");
 }
 
-
 //  list the program codeList
+
 void listCode() {
   objStatement* stmt;
 
-//  if no code, say so
+//  if no code, say sopen
 
   if (codeList.count == 0) {
     Serial.printf("Nothing to list\n");
