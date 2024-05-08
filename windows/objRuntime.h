@@ -16,6 +16,8 @@ public:
   objExpression expr;
   char msg[100];
   char* tokens[MAX_TOKENS];
+  int sequence;
+char* text;
   int count = 0;
 int nextAddress = 0;
 
@@ -32,8 +34,6 @@ bool runLet();
 
 protected:
   char tokenData[MAX_STRING + MAX_TOKENS];
-int sequence;
-char* text;
 char printerBuff[100];
   
   bool runCommand();

@@ -83,7 +83,11 @@ if (strcmp(buff, "RUN") == 0) {
 		return;
 	}
 	
-	runtime.run(codeList);	
+if (	runtime.run(codeList) != TRUE) {
+	printf("%d %s\n", runtime.sequence, runtime.text);
+	printf("%s\n", runtime.msg);
+}	
+
 	return;
 }
 	
@@ -98,8 +102,12 @@ if (strcmp(buff, "RUN") == 0) {
     printf("Ok\n");
     return;
   }
-  
+  else {
+	  printf ("Bad statement\n");
+	  return;
+  }
   printf("Unknown command\n");
+  
 }
 
 //  list the program codeList
