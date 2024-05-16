@@ -219,26 +219,71 @@ strcpy(msg, "Bad statement");
 //  execute print statement and fill output_iterator//  note: return 0 if success, 1 if fail
 
 bool objRuntime::runPrint(char* output) {
+	int n1 = 1;	
+	int i = 1;
+	bool rslt = TRUE;
+		
     if (count < 2) {
         strcpy(output, "");
         return TRUE;
     }
     
+	//  scan tokens to extract exressions
+	//  commas generate two spaces
+	
+	strcpy(output, "");
+while (i < count) {
+		if (strcmp(tokens[i], ",") == 0) {
+			if (n1 < i)  {
+				if ( printExpression(output, n1, i - 1) != TRUE) return FALSE;
+			}
+			
+			strcat(output, "  ");
+			n1 = i + 1;
+		}		
+		
+		i++;
+	}
+	
+	if (n1 < count) {
+		printExpression(output, n1, count - 1);
+	}
+	
+	if (strcmp(tokens[count - 1], ",") != 0) {
+		strcat(output, "\n");
+	}
+	
+	return TRUE;
+}
+	
+	//  print expressions extracted above
+	
+	bool objRuntime::printExpression(char* output, int n1, int n2) {
+		char tempStr[20];
+		float f;
+		
 	//  if literal, copy to output
-	if (tokens[1][0] == '"') {
-		stripQuotes(tokens[1]);
-    strcpy(output, tokens[1]);
+	if (tokens[n1][0] == '"') {
+		if (n1 < n2) {
+			strcpy(msg, "Bad expression");
+			return FALSE;
+		}
+		
+		stripQuotes(tokens[n1]);
+    strcat(output, tokens[n1]);
     return TRUE;
 	}
 
 //  evaluate expression
-if (expr.isValid(tokens, 1, count - 1) != TRUE) {
+
+if (expr.isValid(tokens, n1, n2) != TRUE) {
 	strcpy(msg, "Bad expression");
 	return FALSE;
 }	
 
-float f = expr.evaluate(tokens, 1, count - 1, varList);
-sprintf(output, "%f", f);
+f = expr.evaluate(tokens, n1, n2, varList);
+sprintf(tempStr, "%f", f);
+strcat(output, tempStr);
 return TRUE;	
 }
 

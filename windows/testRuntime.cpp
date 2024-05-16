@@ -66,20 +66,38 @@ n = runtime.findTokens("PRINT 5");
 assert(n == 2);
 ok = runtime.runPrint(buff);
 assert(ok == TRUE);
-assert (strcmp(buff, "5.000000") == 0);
+assert (strcmp(buff, "5.000000\n") == 0);
 
 printf("Testing print with one literal\n");
 n = runtime.findTokens("PRINT \"This is a test\"");
 assert(n == 2);
 ok = runtime.runPrint(buff);
 assert(ok == TRUE);
-assert (strcmp(buff, "This is a test") == 0);
+assert (strcmp(buff, "This is a test\n") == 0);
 
 printf("Testing print with one expression\n");
 n = runtime.findTokens("PRINT 2 + 2");
 ok = runtime.runPrint(buff);
 assert(ok == TRUE);
-assert(strcmp(buff, "4.000000") == 0);
+assert(strcmp(buff, "4.000000\n") == 0);
+
+printf("Testing print with two numbers\n");
+n = runtime.findTokens("PRINT 2, 3");
+ok = runtime.runPrint(buff);
+assert(ok == TRUE);
+assert(strcmp(buff, "2.000000  3.000000\n") == 0);
+
+printf("Testing print with two expressions\n");
+n = runtime.findTokens("PRINT 2 + 3, 2 * 3");
+ok = runtime.runPrint(buff);
+assert(ok == TRUE);
+assert(strcmp(buff, "5.000000  6.000000\n") == 0);
+
+printf("Testing print with literal and expression\n");
+n = runtime.findTokens("PRINT \"3 + 4 = \", 3 + 4");
+ok = runtime.runPrint(buff);
+assert(ok == TRUE);
+assert(strcmp(buff, "3 + 4 =   7.000000\n") == 0);
 
 //  test let
 
