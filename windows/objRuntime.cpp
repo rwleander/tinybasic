@@ -90,7 +90,7 @@ bool objRuntime::runCommand() {
 		if (strcmp(tokens[0], "PRINT") == 0) {
 	ok = runPrint(printerBuff);
 if (ok == TRUE) {
-	printf("%s\n", printerBuff);
+	printf(printerBuff);
 }	
 return ok;
 		}

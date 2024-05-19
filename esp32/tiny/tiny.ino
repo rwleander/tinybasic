@@ -1,6 +1,6 @@
 //  tiny basic for ESP32
 
-#include <M5StickC.h>
+#include <hardwareserial.h>
 
 #include "objStatement.h"
 #include "objStatementList.h"
@@ -27,10 +27,10 @@ int startHeap;
 //  setup
 
 void setup() {
-  M5.begin();
-  M5.Lcd.setRotation(3);
-  M5.Lcd.setCursor(0, 30, 4);
-  M5.Lcd.println("Tiny Basic");
+  //M5.begin();
+  //M5.Lcd.setRotation(3);
+  //M5.Lcd.setCursor(0, 30, 4);
+  //M5.Lcd.println("Tiny Basic");
 
   Serial.begin(115200);
   Serial.printf(">");

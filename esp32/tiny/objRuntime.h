@@ -3,7 +3,7 @@
 #ifndef __objRuntime
 #define __objRuntime
 
-#include <M5StickC.h>
+#include <hardwareserial.h>
 
 #include "objStatement.h"
 #include "objStatementList.h"
