@@ -39,6 +39,7 @@ char* text;
 char printerBuff[100];
   
   bool runCommand(HardwareSerial* serial);
+  bool printExpression(char* output, int n1, int n2); 
   void clearTokens();
   void copyTokens(char* text);
   void getTokenList();

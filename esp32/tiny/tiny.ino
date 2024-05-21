@@ -81,6 +81,10 @@ void upshift(char* buff, String* txt) {
 void doCommand(char* buff) {
   objStatement validator;
  
+ if (strcmp (buff, "") == 0) {
+	 return;
+ }
+ 
   if (strcmp(buff, "NEW") == 0) {
     codeList.clear();
     Serial.printf("Ok\n");
