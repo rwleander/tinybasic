@@ -33,6 +33,7 @@ void setup() {
   //M5.Lcd.println("Tiny Basic");
 
   Serial.begin(115200);
+  Serial.setTimeout(1000);
   Serial.printf(">");
 
   codeList.begin();
@@ -46,7 +47,10 @@ void loop() {
   String txt;
   char buff[100];
 
+txt = "";
+if (Serial.available()) {
   txt = Serial.readStringUntil('\n');
+}
 
   if (txt.length() > 0) {
     upshift(buff, &txt);
