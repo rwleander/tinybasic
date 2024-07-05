@@ -85,12 +85,34 @@ int n;
   assert (strcmp(buff, "line2\n") == 0);
   assert (textData.available == false);
   
+  //  test compress method 
   
+  printf("testing compress method\n");
+  textData.clear();
+  textData.start = 400;
+  textData.end = 400;
+  textData.add("abcdef", 6);  
+  assert(textData.start == 400);
+  assert(textData.end == 407);
+  assert(textData.available == false);
   
+  textData.compress();      
+  assert(strcmp(textData.textWork, "abcdef") == 0);
+  assert(textData.start == 0);
+  assert(textData.end == 7);
+  assert(textData.available == false);
   
-  
+//  final test = add and read text to force compress
 
+textData.clear();
+for (int i=0; i<75; i++) {
+textData.add("123456789\n", 10);
+assert(textData.available == true);
 
+n = textData.getText(buff);
+assert(strcmp(buff, "123456789\n") == 0);
+assert(n == 10);
+}
 
 //  done
 

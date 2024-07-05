@@ -24,6 +24,13 @@ void objTextBuffer::clear() {
 //  add text to the work area
 
 void objTextBuffer::add(char* buff, int n) {
+	
+	//  if past end, compress
+	if ((end + n + 5) >= MAX_WORK) {
+		compress();
+	}
+	
+	//  copy data to textWork
 	  int i = 0;
 	  while (i < n) {
 		  textWork[end] = buff[i];
@@ -92,5 +99,33 @@ return n;
 		  }
 		  
 		  return false;
+	  }
+	  
+	  
+	  //  shift data back to start of text buffer
+	  
+	  void objTextBuffer::compress() {
+		  
+		  //  copy data to start of textWork
+		  
+		  int i = 0;
+		  while (start < end) {
+			  textWork[i] = textWork[start];
+			  i++;
+			  start++;
+		  }
+		  
+		  //  reset pointers
+		  
+		  start = 0;
+		  end = i;
+		  
+		  //  clear remaining buffer
+		  
+	  while (i < MAX_WORK) {
+		  textWork[i] = '\0';
+		  i++;
+	  }
+	  
 	  }
 	  

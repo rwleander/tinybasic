@@ -20,6 +20,7 @@ bool available = false;
   void add (char* buff, int n);
   int getText(char* buff);
   bool checkAvailable();
+  void compress();
 
    
 };
