@@ -47,7 +47,7 @@ void objTextBuffer::add(char* buff, int n) {
 	  
 	  //  if no data, return 0
 	  
-		  if ((start == end) || (available == false)) {
+		  if ((start + 1 >= end) || (available == false)) {
 			  buff[0] = '\0';
 			  return 0;
 		  }
@@ -71,5 +71,26 @@ buff[n+1] = '\0';
 n++;
 start += 2;
 available = false;
+
+//  if we still have text, see if there's another line feed
+
+if (start + 1 < end) {
+	available = checkAvailable();
+}
+
 return n;
 	  }
+	  
+	  
+	  //  see if there's another line feed
+	  
+	  bool objTextBuffer::checkAvailable() {
+		  int i = start;
+		  while (i < end) {
+			  if (textWork[i] == '\n') return true;
+			  i++;
+		  }
+		  
+		  return false;
+	  }
+	  

@@ -46,6 +46,7 @@ int n;
   assert (textData.available == false);
 
 //  add another line
+
   printf("Testing third add\n");
   textData.add("more data\n", 10);    
   assert (textData.start == 10);
@@ -61,6 +62,33 @@ int n;
   assert (textData.start == 22);
   assert (textData.end == 23);
   assert (textData.available == false);
+
+//  test get when available is false
+  printf("Testing get when not available\n");
+  n = textData.getText(buff);    
+  assert(strcmp(buff, "") == 0);
+  assert (n == 0);
+  
+  //  test add and get with two lines
+
+  printf("Testing add with two lines\n");
+  textData.add("line1\nline2\n", 12); 
+  assert (textData.available == true);
+  
+  n = textData.getText(buff);
+  assert (n == 6);
+  assert (strcmp(buff, "line1\n") == 0);
+  assert (textData.available == true);
+  
+  n = textData.getText(buff);
+  assert (n == 6);
+  assert (strcmp(buff, "line2\n") == 0);
+  assert (textData.available == false);
+  
+  
+  
+  
+  
 
 
 

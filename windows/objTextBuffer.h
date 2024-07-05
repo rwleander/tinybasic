@@ -19,6 +19,7 @@ bool available = false;
     void clear();
   void add (char* buff, int n);
   int getText(char* buff);
+  bool checkAvailable();
 
    
 };
