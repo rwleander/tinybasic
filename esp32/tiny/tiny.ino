@@ -5,6 +5,7 @@
 #include "objStatement.h"
 #include "objStatementList.h"
 #include "objRuntime.h"
+#include "objTextBuffer.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,7 +14,7 @@
 
 // functions
 
-void upshift(char* buff, String* txt);
+void upshift(char* buff, int bufflen);
 void doCommand(char* buff);
 void listCode();
 void checkHeap();
@@ -22,18 +23,14 @@ void checkHeap();
 
 objStatementList codeList;
 objRuntime runtime;
+objTextBuffer textWork;
 int startHeap;
 
 //  setup
 
-void setup() {
-  //M5.begin();
-  //M5.Lcd.setRotation(3);
-  //M5.Lcd.setCursor(0, 30, 4);
-  //M5.Lcd.println("Tiny Basic");
-
-  Serial.begin(115200);
-  Serial.setTimeout(1000);
+void setup() {  
+  Serial.begin(115200);  
+  Serial.printf("Tiny Basic\n");
   Serial.printf(">");
 
   codeList.begin();
@@ -44,16 +41,24 @@ void setup() {
 //  loop read console and do command
 
 void loop() {
-  String txt;
+  char txt[100];
   char buff[100];
-
-txt = "";
+  int n = 0;
+  int bufflen = 0;
+  
+strcpy(txt, "");
+strcpy(buff, "");
 if (Serial.available()) {
-  txt = Serial.readStringUntil('\n');
+  n = Serial.readBytes(txt, 100);
+  textWork.add(txt, n);
 }
 
-  if (txt.length() > 0) {
-    upshift(buff, &txt);
+if (textWork.available == true) {
+	bufflen = textWork.getText(buff);	
+}
+
+  if (bufflen > 0) {
+    upshift(buff, bufflen);
     Serial.printf("%s\n", buff);
 
     doCommand(buff);
@@ -61,24 +66,20 @@ if (Serial.available()) {
       }
 }
 
-//  convert string to char array and upshift text
+//  upshift char array
 
-void upshift(char* buff, String* txt) {
-  for (int i=0; i<100; i++) {
-    buff[i] = '\0';
-
-    if (i < txt->length() - 1) {
-      if ((txt->charAt(i) >= 'a') && (txt->charAt(i) <= 'z')) {
-         buff[i] = txt->charAt(i) + 'A' - 'a';
+void upshift(char* buff, int bufflen) {
+  for (int i=0; i<bufflen; i++) {    
+      if ((buff[i] >= 'a') && (buff[i] <= 'z')) {
+         buff[i] = buff[i] + 'A' - 'a';
       }
-      else {
-        if (txt->charAt(i) != '\n') {
-          buff[i] = txt->charAt(i);
-        }
-      }
-    }
+	  
+	  if ((buff[i] == '\n') || (buff[i] == '\r')) {
+		  buff[i] = '\0';
+	  }	  
   }
-}
+  
+  }
 
 //  process command
 
