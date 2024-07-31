@@ -94,6 +94,12 @@ if (ok == TRUE) {
 }	
 return ok;
 		}
+		
+//  input
+
+if (strcmp(tokens[0], "INPUT") == 0) {
+	return runInput();	
+}
 
 //  remark
 	
@@ -287,6 +293,51 @@ strcat(output, tempStr);
 return TRUE;	
 }
 
+
+//  get a number from the keyboard
+
+bool objRuntime::runInput() {
+	char txt[20];
+	char var;
+	int txtLen;
+	float value;
+		
+	//  only accept one variable
+	
+	if (count != 2) {
+		strcpy(msg, "Bad statement");
+		return FALSE;
+	}
+	
+	var = tokens[1][0];
+if ((var < 'A') || (var > 'Z')) {
+strcpy(msg, "Bad statement");
+		return FALSE;
+		}
+	
+	//  get the keyboard input
+	
+	printf(": ");	
+fgets(txt, 19, stdin);
+txtLen = strlen(txt);
+if (txtLen > 1) {
+	txt[txtLen - 2] = '\0';
+}
+
+	txt[
+}
+if (isValidNumber(txt) != TRUE) {
+	strcpy(msg, "Bad input");
+	return FALSE;
+}
+
+//  save the variable
+
+value = atof(txt);
+varList.setVariable(var, value);
+return TRUE;	
+}
+
 //  run remark - do nothing
 
 bool objRuntime::runRem() {
@@ -441,4 +492,27 @@ count++;
   
   //  copy the results back to txt
   strcpy(txt, txtWork);  
+}
+
+
+//  check for valid number
+bool objRuntime::isValidNumber(char* txt) {
+	char ch;
+	bool isValid;
+	
+	int txtLen = strlen(txt);
+	int i = 0;
+	while (i < txtLen) {
+		ch = txt[i];
+		isValid = FALSE;
+		
+		if ((ch >= '0') && (ch < '9')) isValid = TRUE;
+		if (ch == '.') isValid = TRUE;
+		if (ch == '-') isValid = TRUE;		
+		
+		if (isValid == FALSE) return FALSE;
+		i++;
+	}
+	
+	return TRUE;
 }

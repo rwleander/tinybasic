@@ -28,9 +28,11 @@ bool runGoto();
 bool runIf();
 bool runLet();
   bool runPrint(char* output);
+  bool runInput();
   bool runRem();
 
   int findTokens(char* text);
+  bool isValidNumber(char* txt);
 
 protected:
   char tokenData[MAX_STRING + MAX_TOKENS];
@@ -41,7 +43,7 @@ char printerBuff[100];
   void clearTokens();
   void copyTokens(char* text);
   void getTokenList();
-  void stripQuotes(char* txt);
+  void stripQuotes(char* txt);  
 };
 
 #endif

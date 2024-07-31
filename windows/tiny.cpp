@@ -115,7 +115,7 @@ if (	runtime.run(codeList) != TRUE) {
 void listCode() {
   objStatement* stmt;
 
-//  if no code, say sopen
+//  if no code, say so
 
   if (codeList.count == 0) {
     printf("Nothing to list\n");

@@ -59,6 +59,13 @@ assert(strcmp(runtime.tokens[7], "+") == 0);
 assert(strcmp(runtime.tokens[8], "D") == 0);
 assert(strcmp(runtime.tokens[9], ")") == 0);
 
+//  test is valid number\n
+
+printf("Testing is valid number\n");
+assert(runtime.isValidNumber("123") == TRUE);
+assert(runtime.isValidNumber("-123.45") == TRUE);
+assert (runtime.isValidNumber("BAD") == FALSE);
+
 //  test print function
 
 printf("Testing print with one number\n");
@@ -160,9 +167,6 @@ n = runtime.findTokens("IF 4 >= 2 THEN 30");
 ok = runtime.runIf();
 assert(ok == TRUE);
 assert(runtime.nextAddress == 30);
-
-
-
 
 
 //  test basic run method
