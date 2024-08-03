@@ -28,6 +28,7 @@ bool runGoto();
 bool runIf();
 bool runLet();
   bool runPrint(char* output);
+  bool runInput(HardwareSerial* serial);
   bool runRem();
 
   int findTokens(char* text);

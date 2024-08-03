@@ -95,6 +95,12 @@ if (ok == TRUE) {
 return ok;
 		}
 
+//  input 
+
+if (strcmp(tokens[0], "INPUT") == 0) {
+	return runInput(serial);
+}
+
 //  remark
 	
 	if (strcmp(tokens[0], "REM") == 0) {
@@ -284,6 +290,38 @@ if (expr.isValid(tokens, n1, n2) != TRUE) {
 f = expr.evaluate(tokens, n1, n2, varList);
 sprintf(tempStr, "%f", f);
 strcat(output, tempStr);
+return TRUE;	
+}
+
+//  get number from keyboard
+
+bool objRuntime::runInput(HardwareSerial* serial) {
+	char var;
+	float value;
+		
+	//  only accept one variable
+	
+	if (count != 2) {
+		strcpy(msg, "Bad statement");
+		return FALSE;
+	}		
+	
+	var = tokens[1][0];
+if ((var < 'A') || (var > 'Z')) {
+strcpy(msg, "Bad statement");
+		return FALSE;
+		}
+
+//  get the keyboard input
+
+serial->printf(": ");
+while (!serial->available()) {
+value = serial->parseFloat();
+}
+
+//  save the variable
+
+varList.setVariable(var, value);
 return TRUE;	
 }
 
