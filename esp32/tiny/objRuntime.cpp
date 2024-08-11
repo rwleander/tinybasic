@@ -107,6 +107,10 @@ if (strcmp(tokens[0], "INPUT") == 0) {
 		return runRem();
 	}
 	
+	if (strcmp(tokens[0], "STOP") == 0) {
+		return runStop();
+	}
+	
 	//  bad statement
 	
 	strcpy (msg, "Unknown statement");
@@ -328,6 +332,13 @@ return TRUE;
 //  run remark - do nothing
 
 bool objRuntime::runRem() {
+	return TRUE;
+}
+
+//  stop the program
+
+bool objRuntime::runStop() {
+	nextAddress = -1;
 	return TRUE;
 }
 

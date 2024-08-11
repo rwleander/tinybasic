@@ -106,8 +106,12 @@ if (strcmp(tokens[0], "INPUT") == 0) {
 	if (strcmp(tokens[0], "REM") == 0) {
 		return runRem();
 	}
+
 	
-	//  bad statement
+	if (strcmp(tokens[0], "STOP") == 0) {
+		return runStop();
+	}
+		//  bad statement
 	
 	strcpy (msg, "Unknown statement");
 	return FALSE;
@@ -324,8 +328,6 @@ if (txtLen > 1) {
 	txt[txtLen - 2] = '\0';
 }
 
-	txt[
-}
 if (isValidNumber(txt) != TRUE) {
 	strcpy(msg, "Bad input");
 	return FALSE;
@@ -341,6 +343,13 @@ return TRUE;
 //  run remark - do nothing
 
 bool objRuntime::runRem() {
+	return TRUE;
+}
+
+//  stop program
+
+bool objRuntime::runStop() {
+	nextAddress = -1;
 	return TRUE;
 }
 

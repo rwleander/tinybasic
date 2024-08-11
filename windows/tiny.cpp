@@ -38,7 +38,9 @@ runtime.begin();
     fgets(buff, 99, stdin);
 
     upshift(buff);
-    doCommand(buff);
+	if (strlen(buff) > 0) {
+      doCommand(buff);
+	}
   }
 
 //  end program

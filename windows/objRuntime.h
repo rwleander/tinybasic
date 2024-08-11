@@ -30,6 +30,7 @@ bool runLet();
   bool runPrint(char* output);
   bool runInput();
   bool runRem();
+  bool runStop();
 
   int findTokens(char* text);
   bool isValidNumber(char* txt);

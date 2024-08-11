@@ -30,6 +30,7 @@ bool runLet();
   bool runPrint(char* output);
   bool runInput(HardwareSerial* serial);
   bool runRem();
+  bool runStop();
 
   int findTokens(char* text);
 

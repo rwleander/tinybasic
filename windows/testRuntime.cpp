@@ -169,6 +169,16 @@ assert(ok == TRUE);
 assert(runtime.nextAddress == 30);
 
 
+//  test stop statement
+//  test if statement
+
+printf("Testing stop statement \n");
+n = runtime.findTokens("STOP");
+runtime.nextAddress = 20;
+ok = runtime.runStop();
+assert(ok == TRUE);
+assert(runtime.nextAddress == -1);
+
 //  test basic run method
 
 printf("Testing basic run method\n");
