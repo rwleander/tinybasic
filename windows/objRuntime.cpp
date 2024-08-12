@@ -14,6 +14,7 @@
 void objRuntime::begin() {	
 	varList.begin();
 	strcpy(msg, "");
+	for (int i=0; i<MAX_GOSTACK; i++) goStack[i] = 0;
 }
 
 //  run the program found in codeList
@@ -25,6 +26,7 @@ bool objRuntime::run(objStatementList &codeList) {
 	
 	varList.clear();	
 	nextAddress = codeList.getSequence(0);
+	goCount = 0;
 	
 	//  loop through the code, executing statements
 	
@@ -71,6 +73,16 @@ bool objRuntime::runCommand() {
 		
 		if (strcmp(tokens[0], "GOTO") == 0) {
 			return runGoto();
+		}
+			
+//  gosub / return			
+
+		if (strcmp(tokens[0], "GOSUB") == 0) {
+			return runGosub();
+		}
+		
+		if (strcmp(tokens[0], "RETURN") == 0) {
+			return runReturn();
 		}
 		
 		// if
@@ -121,7 +133,7 @@ if (strcmp(tokens[0], "INPUT") == 0) {
 
 bool objRuntime::runGoto() {
 	
-//  need a line number
+//  find  line number
 
 if (count < 2) {
 	strcpy(msg, "Bad statement");
@@ -135,6 +147,55 @@ if (expr.isValid(tokens, 1, count - 1) != TRUE) {
 }
 
 nextAddress = expr.evaluate(tokens, 1, count -1, varList);
+	return TRUE;
+}
+
+//  gosub / return
+
+bool objRuntime::runGosub() {
+	
+	//  get next address
+	
+	if (count < 2) {
+    strcpy(msg, "Bad statement");
+	return FALSE;
+}	
+
+//  evaluate expression
+
+if (expr.isValid(tokens, 1, count - 1) != TRUE) {
+	strcpy(msg, "Bad expression");
+	return FALSE;
+}
+
+int addr  = expr.evaluate(tokens, 1, count -1, varList);
+
+//  check for stack overflow
+if (goCount >= MAX_GOSTACK - 1) {
+	strcpy(msg, "Stack overflow");
+	return FALSE;	
+}
+//  push address to go stack	
+	
+	goStack[goCount] = nextAddress;
+	goCount++;	
+	nextAddress = addr;
+		
+	return TRUE;
+}
+
+bool objRuntime::runReturn() {
+	
+	//  make sure stack is not empty
+	if (goCount < 1) {
+		strcpy(msg, "Stack underflow");
+		return FALSE;
+	}
+	
+	nextAddress = goStack[goCount - 1];
+	goStack[goCount - 1] = 0;
+	goCount--;
+	
 	return TRUE;
 }
 

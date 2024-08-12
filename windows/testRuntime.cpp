@@ -168,9 +168,46 @@ ok = runtime.runIf();
 assert(ok == TRUE);
 assert(runtime.nextAddress == 30);
 
+//  test gosub / return
+
+printf("Testing gosub statement \n");
+n = runtime.findTokens("GOSUB 100");
+runtime.nextAddress = 20;
+runtime.goCount = 0;
+ok = runtime.runGosub();
+assert(ok == TRUE);
+assert(runtime.nextAddress == 100);
+assert(runtime.goCount = 1);
+assert(runtime.goStack[0] == 20);
+
+n = runtime.findTokens("RETURN");
+ok = runtime.runReturn();
+assert(ok == TRUE);
+assert(runtime.nextAddress == 20);
+assert(runtime.goCount == 0);
+assert(runtime.goStack[0] == 0);
+
+//  test gosub stack overflow
+
+printf("Testing gosub statement with stack overflow \n");
+n = runtime.findTokens("GOSUB 100");
+runtime.nextAddress = 20;
+runtime.goCount = 7;
+ok = runtime.runGosub();
+assert(ok == FALSE);
+assert(strcmp(runtime.msg, "Stack overflow") == 0);
+
+//  test return with empty stack 
+
+printf("Testing return  statement with empty stack \n");
+n = runtime.findTokens("RETURN");
+runtime.nextAddress = 20;
+runtime.goCount = 0;
+ok = runtime.runReturn();
+assert(ok == FALSE);
+assert(strcmp(runtime.msg, "Stack underflow") == 0);
 
 //  test stop statement
-//  test if statement
 
 printf("Testing stop statement \n");
 n = runtime.findTokens("STOP");

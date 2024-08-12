@@ -12,6 +12,10 @@
 
 #define MAX_TOKENS 25
 
+//  maximum nested gosubs
+
+#define MAX_GOSTACK 7
+
 //  true and false
 
 #define TRUE 1
