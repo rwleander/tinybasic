@@ -20,11 +20,15 @@ public:
   char* tokens[MAX_TOKENS];
   int count = 0;
 int nextAddress = 0;
+int goStack[MAX_GOSTACK];
+int goCount = 0;
 
 void begin();
 bool run(HardwareSerial* serial, objStatementList& codeList);
 
 bool runGoto();
+bool runGosub();
+bool runReturn();
 bool runIf();
 bool runLet();
   bool runPrint(char* output);
