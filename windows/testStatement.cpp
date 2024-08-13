@@ -47,8 +47,8 @@ assert(strlen(stmt3.text) == 0);
 
 printf("test isValid method\n");
 objStatement validator;
-assert(validator.isValid("10 LET A = 1") == TRUE);
-assert(validator.isValid("2x LET B = 2") == FALSE);
+assert(validator.isValid("10 LET A = 1") == true);
+assert(validator.isValid("2x LET B = 2") == false);
 
 // done
 

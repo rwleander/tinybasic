@@ -55,7 +55,7 @@ void objExpression::loadRpn() {
   for (int i=0; i<count; i++) {
     token =  tokens[i];
 
-    if (isOperator(token) == TRUE) {
+    if (isOperator(token) == true) {
       setOperator(token);
     }
     else {
@@ -151,7 +151,7 @@ void objExpression::setOperator(char * token) {
 
   calcCount = 0;
   for (int i = 0; i < rpnCount; i++) {
-    if (isOperator(rpn[i]) == TRUE) {
+    if (isOperator(rpn[i]) == true) {
       if (calcCount < 2) return 0.0;
 
     op = rpn[i][0];
@@ -214,22 +214,22 @@ bool objExpression::compare(char* op, float f1, float f2) {
 	while (i < strlen(op)) {
 		switch(op[i]) {
 			case '<':
-			if (f1 < f2) return TRUE;
+			if (f1 < f2) return true;
 			break;
 			
 			case '=':
-			if (f1 == f2) return TRUE;
+			if (f1 == f2) return true;
 			break;
 			
 			case '>':
-			if (f1 > f2) return TRUE;
+			if (f1 > f2) return true;
 			break;
 		}
 		
 		i++;
 	};
 		
-	return FALSE;
+	return false;
 }
 	
 
@@ -243,14 +243,14 @@ bool objExpression::isValid(char* tokens[], int n1, int n2) {
 	//  if only one expression, it must be a number or variables
 	
 	if (n1 == n2) {
-	if (thisTokenType == __number) return TRUE;
-	if (thisTokenType == __variable) return TRUE;
-	return FALSE;
+	if (thisTokenType == __number) return true;
+	if (thisTokenType == __variable) return true;
+	return false;
 	}
 	
 	//  first item cannot be an operator
 	
-	if (thisTokenType == __operator) return FALSE;
+	if (thisTokenType == __operator) return false;
 	if (thisTokenType == __leftParen) parenCount++;
 		
 	//  check body of the expression
@@ -260,29 +260,29 @@ bool objExpression::isValid(char* tokens[], int n1, int n2) {
 		int i = n1 + 1;
 		while (i <= n2) {
 		thisTokenType = getTokenType(tokens[i]);
-		if (thisTokenType == __unknown) return FALSE;
+		if (thisTokenType == __unknown) return false;
 		
 		switch (thisTokenType) {
 			case __number:
 			case __variable:
-			if (lastTokenType == __number) return FALSE;
-			if (lastTokenType == __variable) return FALSE;
-			if (lastTokenType == __rightParen) return FALSE;
+			if (lastTokenType == __number) return false;
+			if (lastTokenType == __variable) return false;
+			if (lastTokenType == __rightParen) return false;
 			break;
 			
 			case __operator:
-			if (lastTokenType == __operator) return FALSE;
-			if (lastTokenType == __leftParen) return FALSE;
+			if (lastTokenType == __operator) return false;
+			if (lastTokenType == __leftParen) return false;
 			break;
 			
 			case __leftParen:
-			if (lastTokenType == __number) return FALSE;
-			if (lastTokenType == __variable) return FALSE;
+			if (lastTokenType == __number) return false;
+			if (lastTokenType == __variable) return false;
 			parenCount++;
 			break;
 			
 			case __rightParen:
-			if (lastTokenType == __operator) return FALSE;
+			if (lastTokenType == __operator) return false;
 			parenCount--;
 			break;					
 			}		
@@ -293,13 +293,13 @@ bool objExpression::isValid(char* tokens[], int n1, int n2) {
 	
 // 		last token cannot be an operator
 		
-		if (getTokenType(tokens[n2]) == __operator) return FALSE;
+		if (getTokenType(tokens[n2]) == __operator) return false;
 		
 		//  make sure parens match
 		
-		if (parenCount != 0) return FALSE;
+		if (parenCount != 0) return false;
 	
-return TRUE;	
+return true;	
 	}
 	
 //  determine token typedef
@@ -313,11 +313,11 @@ int objExpression::getTokenType(char* token) {
 	
 	//  operator
 	
-	if (isOperator(token) == TRUE) return __operator;
+	if (isOperator(token) == true) return __operator;
 	
 	//  numbers
 	
-	if (isNumeric(token) == TRUE) return __number;
+	if (isNumeric(token) == true) return __number;
 	
 	//  variables - starts with letter
 	
@@ -339,18 +339,18 @@ bool objExpression::isComparison(char* value) {
 	
 	while (i < count) {
 		op = ops[i];
-		if (strcmp(value, op) == 0) return TRUE;
+		if (strcmp(value, op) == 0) return true;
 		i++;
 	}
 	
-	return FALSE;
+	return false;
 }
 
 //  check if value is an operator
 
 bool objExpression::isOperator(char* value) {
-  if (getPrecedence(value) >= 0) return TRUE;
-    return FALSE;
+  if (getPrecedence(value) >= 0) return true;
+    return false;
   }
 
 //  get operator precedence
@@ -368,24 +368,24 @@ bool objExpression::isOperator(char* value) {
 
 bool objExpression::isNumeric(char* token) {
 char ch;
-bool isNum = FALSE;
+bool isNum = false;
 int i = 0;
 
 
 	while (i < strlen(token)) {
 		ch = token[i];
-	isNum = FALSE;
-	if ((ch >= '0') && (ch <= '9')) isNum = TRUE;
-	if (ch == '.') isNum = TRUE;
-	if (ch == '-') isNum = TRUE;
-	if (ch == '+') isNum = TRUE;
+	isNum = false;
+	if ((ch >= '0') && (ch <= '9')) isNum = true;
+	if (ch == '.') isNum = true;
+	if (ch == '-') isNum = true;
+	if (ch == '+') isNum = true;
 	
-	if (isNum == FALSE) return FALSE;
+	if (isNum == false) return false;
 	
 i++;	
 	}
 		
-	return TRUE;
+	return true;
 }
 
 

@@ -34,7 +34,7 @@ bool objRuntime::run(objStatementList &codeList) {
 	i = codeList.findAddress(nextAddress);
 	if (i < 0) {
 		printf("Bad line number: %d\n", nextAddress);
-		return FALSE;
+		return false;
 	}
 	
 	sequence = codeList.getSequence(i);
@@ -54,14 +54,14 @@ bool objRuntime::run(objStatementList &codeList) {
 	//  parse the statement
 	
 	if (findTokens(text) > 0) {
-		if (runCommand() == FALSE) {
-			return FALSE;
+		if (runCommand() == false) {
+			return false;
 		}		
 	}	
 	}	
 
 printf("Done\n");	
-	return TRUE;
+	return true;
 }
 
 //  run a command
@@ -101,7 +101,7 @@ bool objRuntime::runCommand() {
 	
 		if (strcmp(tokens[0], "PRINT") == 0) {
 	ok = runPrint(printerBuff);
-if (ok == TRUE) {
+if (ok == true) {
 	printf(printerBuff);
 }	
 return ok;
@@ -126,7 +126,7 @@ if (strcmp(tokens[0], "INPUT") == 0) {
 		//  bad statement
 	
 	strcpy (msg, "Unknown statement");
-	return FALSE;
+	return false;
 }
 
 //  run the go to statement
@@ -137,17 +137,17 @@ bool objRuntime::runGoto() {
 
 if (count < 2) {
 	strcpy(msg, "Bad statement");
-	return FALSE;
+	return false;
 }	
 
 //  evaluate expression
-if (expr.isValid(tokens, 1, count - 1) != TRUE) {
+if (expr.isValid(tokens, 1, count - 1) != true) {
 	strcpy(msg, "Bad expression");
-	return FALSE;
+	return false;
 }
 
 nextAddress = expr.evaluate(tokens, 1, count -1, varList);
-	return TRUE;
+	return true;
 }
 
 //  gosub / return
@@ -158,14 +158,14 @@ bool objRuntime::runGosub() {
 	
 	if (count < 2) {
     strcpy(msg, "Bad statement");
-	return FALSE;
+	return false;
 }	
 
 //  evaluate expression
 
-if (expr.isValid(tokens, 1, count - 1) != TRUE) {
+if (expr.isValid(tokens, 1, count - 1) != true) {
 	strcpy(msg, "Bad expression");
-	return FALSE;
+	return false;
 }
 
 int addr  = expr.evaluate(tokens, 1, count -1, varList);
@@ -173,7 +173,7 @@ int addr  = expr.evaluate(tokens, 1, count -1, varList);
 //  check for stack overflow
 if (goCount >= MAX_GOSTACK - 1) {
 	strcpy(msg, "Stack overflow");
-	return FALSE;	
+	return false;	
 }
 //  push address to go stack	
 	
@@ -181,7 +181,7 @@ if (goCount >= MAX_GOSTACK - 1) {
 	goCount++;	
 	nextAddress = addr;
 		
-	return TRUE;
+	return true;
 }
 
 bool objRuntime::runReturn() {
@@ -189,14 +189,14 @@ bool objRuntime::runReturn() {
 	//  make sure stack is not empty
 	if (goCount < 1) {
 		strcpy(msg, "Stack underflow");
-		return FALSE;
+		return false;
 	}
 	
 	nextAddress = goStack[goCount - 1];
 	goStack[goCount - 1] = 0;
 	goCount--;
 	
-	return TRUE;
+	return true;
 }
 
 //  run if statement
@@ -206,12 +206,12 @@ bool objRuntime::runIf() {
 	int n1 = 0;
 	int n2 = 0;
 	int i = 1;
-	bool err = FALSE;
+	bool err = false;
 	
 	//  scan for tokens
 	
 	while (i < count) {
-		if (expr.isComparison(tokens[i]) == TRUE) n1 = i;
+		if (expr.isComparison(tokens[i]) == true) n1 = i;
 		if (strcmp(tokens[i], "THEN") == 0) n2 = i;
 		i++;
 	}
@@ -220,17 +220,17 @@ bool objRuntime::runIf() {
 	
 	if (n1 * n2 == 0) {
 		strcpy(msg, "Bad statement");
-		return FALSE;
+		return false;
 	}
 	
 //  validate  expressions
 
-if (expr.isValid(tokens, 1, n1 - 1) != TRUE) err = TRUE; 
-if (expr.isValid(tokens, n1 + 1, n2 - 1) != TRUE) err = TRUE;
-if (expr.isValid(tokens, n2 + 1, count -1) != TRUE) err = TRUE;
-if (err == TRUE) {
+if (expr.isValid(tokens, 1, n1 - 1) != true) err = true; 
+if (expr.isValid(tokens, n1 + 1, n2 - 1) != true) err = true;
+if (expr.isValid(tokens, n2 + 1, count -1) != true) err = true;
+if (err == true) {
 	strcpy(msg, "Bad expression");
-	return FALSE;
+	return false;
 }
 
 //  evaluate the expressions
@@ -241,11 +241,11 @@ fx3 = expr.evaluate(tokens, n2 + 1, count - 1, varList);
 
 //  do the comparison
 
-if (expr.compare(tokens[n1], fx1, fx2) == TRUE) {
+if (expr.compare(tokens[n1], fx1, fx2) == true) {
 	nextAddress = fx3;
 }
 
-	return TRUE;
+	return true;
 }
 
 //  execute let statement
@@ -258,12 +258,12 @@ bool objRuntime::runLet() {
 	
 	if (count < 4) {
 		strcpy(msg, "Bad statement");
-		return FALSE;
+		return false;
 	}
 	
 	if (strcmp(tokens[2], "=") != 0) {
 		strcpy (msg, "Bad statement");
-		return FALSE;
+		return false;
 	}
 		
 	//  make sure we have a valid variable
@@ -271,20 +271,20 @@ bool objRuntime::runLet() {
 	var = tokens[1][0];
 if ((var < 'A') || (var > 'Z')) {
 strcpy(msg, "Bad statement");
-		return FALSE;
+		return false;
 		}
 	
 	//  now evaluate the expression
 	
-	if (expr.isValid(tokens, 3, count -1) != TRUE) {
+	if (expr.isValid(tokens, 3, count -1) != true) {
 		strcpy(msg, "Bad expression");
-		return FALSE;
+		return false;
 	}		
 	
 		value = expr.evaluate(tokens, 3, count - 1, varList);
 	varList.setVariable(var, value);
 	
-	return TRUE;
+	return true;
 }
 
 //  execute print statement and fill output_iterator//  note: return 0 if success, 1 if fail
@@ -292,11 +292,11 @@ strcpy(msg, "Bad statement");
 bool objRuntime::runPrint(char* output) {
 	int n1 = 1;	
 	int i = 1;
-	bool rslt = TRUE;
+	bool rslt = true;
 		
     if (count < 2) {
         strcpy(output, "");
-        return TRUE;
+        return true;
     }
     
 	//  scan tokens to extract exressions
@@ -306,7 +306,7 @@ bool objRuntime::runPrint(char* output) {
 while (i < count) {
 		if (strcmp(tokens[i], ",") == 0) {
 			if (n1 < i)  {
-				if ( printExpression(output, n1, i - 1) != TRUE) return FALSE;
+				if ( printExpression(output, n1, i - 1) != true) return false;
 			}
 			
 			strcat(output, "  ");
@@ -324,7 +324,7 @@ while (i < count) {
 		strcat(output, "\n");
 	}
 	
-	return TRUE;
+	return true;
 }
 	
 	//  print expressions extracted above
@@ -337,25 +337,25 @@ while (i < count) {
 	if (tokens[n1][0] == '"') {
 		if (n1 < n2) {
 			strcpy(msg, "Bad expression");
-			return FALSE;
+			return false;
 		}
 		
 		stripQuotes(tokens[n1]);
     strcat(output, tokens[n1]);
-    return TRUE;
+    return true;
 	}
 
 //  evaluate expression
 
-if (expr.isValid(tokens, n1, n2) != TRUE) {
+if (expr.isValid(tokens, n1, n2) != true) {
 	strcpy(msg, "Bad expression");
-	return FALSE;
+	return false;
 }	
 
 f = expr.evaluate(tokens, n1, n2, varList);
 sprintf(tempStr, "%f", f);
 strcat(output, tempStr);
-return TRUE;	
+return true;	
 }
 
 
@@ -371,13 +371,13 @@ bool objRuntime::runInput() {
 	
 	if (count != 2) {
 		strcpy(msg, "Bad statement");
-		return FALSE;
+		return false;
 	}
 	
 	var = tokens[1][0];
 if ((var < 'A') || (var > 'Z')) {
 strcpy(msg, "Bad statement");
-		return FALSE;
+		return false;
 		}
 	
 	//  get the keyboard input
@@ -389,29 +389,29 @@ if (txtLen > 1) {
 	txt[txtLen - 2] = '\0';
 }
 
-if (isValidNumber(txt) != TRUE) {
+if (isValidNumber(txt) != true) {
 	strcpy(msg, "Bad input");
-	return FALSE;
+	return false;
 }
 
 //  save the variable
 
 value = atof(txt);
 varList.setVariable(var, value);
-return TRUE;	
+return true;	
 }
 
 //  run remark - do nothing
 
 bool objRuntime::runRem() {
-	return TRUE;
+	return true;
 }
 
 //  stop program
 
 bool objRuntime::runStop() {
 	nextAddress = -1;
-	return TRUE;
+	return true;
 }
 
 //  find tokens in a line of text
@@ -448,7 +448,7 @@ count = 0;
 //  copy the text into a list of tokens separated by nulls ('\0')
 
 void objRuntime::copyTokens(char* text) {
-    bool inQuotes = FALSE;
+    bool inQuotes = false;
     
     char ch;
     char last = ' ';
@@ -466,7 +466,7 @@ switch(ch) {
 	  break;
     
     case ' ':      	
-      if (inQuotes == TRUE) {
+      if (inQuotes == true) {
         tokenData[tx] = ch;
         tx++;
         break;
@@ -484,7 +484,7 @@ case ';':
 case '(':
 case ')':
 
-      if (inQuotes == TRUE) {
+      if (inQuotes == true) {
         tokenData[tx] = ch;
         tx++;
         break;
@@ -574,15 +574,15 @@ bool objRuntime::isValidNumber(char* txt) {
 	int i = 0;
 	while (i < txtLen) {
 		ch = txt[i];
-		isValid = FALSE;
+		isValid = false;
 		
-		if ((ch >= '0') && (ch < '9')) isValid = TRUE;
-		if (ch == '.') isValid = TRUE;
-		if (ch == '-') isValid = TRUE;		
+		if ((ch >= '0') && (ch < '9')) isValid = true;
+		if (ch == '.') isValid = true;
+		if (ch == '-') isValid = true;		
 		
-		if (isValid == FALSE) return FALSE;
+		if (isValid == false) return false;
 		i++;
 	}
 	
-	return TRUE;
+	return true;
 }

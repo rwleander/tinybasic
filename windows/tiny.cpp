@@ -17,7 +17,7 @@ void listCode();
 
 objStatementList codeList;
 objRuntime runtime;
-bool quitFlag = FALSE;
+bool quitFlag = false;
 
 //  main
 int main() {
@@ -32,7 +32,7 @@ runtime.begin();
 
 //  command loop
 
-  while (quitFlag == FALSE) {
+  while (quitFlag == false) {
     strcpy(buff, "");
     printf(">");
     fgets(buff, 99, stdin);
@@ -85,7 +85,7 @@ if (strcmp(buff, "RUN") == 0) {
 		return;
 	}
 	
-if (	runtime.run(codeList) != TRUE) {
+if (	runtime.run(codeList) != true) {
 	printf("%d %s\n", runtime.sequence, runtime.text);
 	printf("%s\n", runtime.msg);
 }	
@@ -94,7 +94,7 @@ if (	runtime.run(codeList) != TRUE) {
 }
 	
   if (strcmp(buff, "QUIT") == 0) {
-    quitFlag = TRUE;
+    quitFlag = true;
     return;
   }
 

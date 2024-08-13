@@ -62,9 +62,9 @@ assert(strcmp(runtime.tokens[9], ")") == 0);
 //  test is valid number\n
 
 printf("Testing is valid number\n");
-assert(runtime.isValidNumber("123") == TRUE);
-assert(runtime.isValidNumber("-123.45") == TRUE);
-assert (runtime.isValidNumber("BAD") == FALSE);
+assert(runtime.isValidNumber("123") == true);
+assert(runtime.isValidNumber("-123.45") == true);
+assert (runtime.isValidNumber("BAD") == false);
 
 //  test print function
 
@@ -72,38 +72,38 @@ printf("Testing print with one number\n");
 n = runtime.findTokens("PRINT 5");
 assert(n == 2);
 ok = runtime.runPrint(buff);
-assert(ok == TRUE);
+assert(ok == true);
 assert (strcmp(buff, "5.000000\n") == 0);
 
 printf("Testing print with one literal\n");
 n = runtime.findTokens("PRINT \"This is a test\"");
 assert(n == 2);
 ok = runtime.runPrint(buff);
-assert(ok == TRUE);
+assert(ok == true);
 assert (strcmp(buff, "This is a test\n") == 0);
 
 printf("Testing print with one expression\n");
 n = runtime.findTokens("PRINT 2 + 2");
 ok = runtime.runPrint(buff);
-assert(ok == TRUE);
+assert(ok == true);
 assert(strcmp(buff, "4.000000\n") == 0);
 
 printf("Testing print with two numbers\n");
 n = runtime.findTokens("PRINT 2, 3");
 ok = runtime.runPrint(buff);
-assert(ok == TRUE);
+assert(ok == true);
 assert(strcmp(buff, "2.000000  3.000000\n") == 0);
 
 printf("Testing print with two expressions\n");
 n = runtime.findTokens("PRINT 2 + 3, 2 * 3");
 ok = runtime.runPrint(buff);
-assert(ok == TRUE);
+assert(ok == true);
 assert(strcmp(buff, "5.000000  6.000000\n") == 0);
 
 printf("Testing print with literal and expression\n");
 n = runtime.findTokens("PRINT \"3 + 4 = \", 3 + 4");
 ok = runtime.runPrint(buff);
-assert(ok == TRUE);
+assert(ok == true);
 assert(strcmp(buff, "3 + 4 =   7.000000\n") == 0);
 
 //  test let
@@ -112,7 +112,7 @@ printf ("Testing basic let statement\n");
 n = runtime.findTokens("LET A = 1");
 assert(n == 4);
 ok = runtime.runLet();
-assert(ok == TRUE);
+assert(ok == true);
 assert (runtime.varList.getVariable('A') == 1); 
 
 //  test more complex let statement\n
@@ -120,7 +120,7 @@ assert (runtime.varList.getVariable('A') == 1);
 printf ("Testing longer let statement\n");
 n = runtime.findTokens("LET B = 2 * (3 + 4)"); 
 ok = runtime.runLet();
-assert(ok == TRUE);
+assert(ok == true);
 assert(runtime.varList.getVariable('B') == 14);
 
 //  test let with variables
@@ -128,7 +128,7 @@ assert(runtime.varList.getVariable('B') == 14);
 printf ("Testing  let statement with variables\n");
 n = runtime.findTokens("LET C = A + B");
 ok = runtime.runLet();
-assert(ok == TRUE);
+assert(ok == true);
 assert(runtime.varList.getVariable('C') == 15);
 
 //  test let with error
@@ -136,14 +136,14 @@ assert(runtime.varList.getVariable('C') == 15);
 printf ("Testing  let statement with error\n");
 n = runtime.findTokens("LET C = A +");
 ok = runtime.runLet();
-assert(ok == FALSE);
+assert(ok == false);
 assert(strcmp(runtime.msg, "Bad expression") == 0);
 
 
 printf ("Testing  let statement with another error\n");
 n = runtime.findTokens("LET = A + B");
 ok = runtime.runLet();
-assert(ok == FALSE);
+assert(ok == false);
 assert(strcmp(runtime.msg, "Bad statement") == 0);
 
 //  test go to_char_type
@@ -151,7 +151,7 @@ assert(strcmp(runtime.msg, "Bad statement") == 0);
 printf("Testing go to\n");
 n = runtime.findTokens("GOTO 50");
 ok = runtime.runGoto();
-assert(ok == TRUE);
+assert(ok == true);
 assert(runtime.nextAddress == 50);
 
 //  test if statement
@@ -160,12 +160,12 @@ printf("Testing runIf method \n");
 n = runtime.findTokens("IF 4 <= 2 THEN 30");
 runtime.nextAddress = 20;
 ok = runtime.runIf();
-assert(ok == TRUE);
+assert(ok == true);
 assert(runtime.nextAddress == 20);
 
 n = runtime.findTokens("IF 4 >= 2 THEN 30");
 ok = runtime.runIf();
-assert(ok == TRUE);
+assert(ok == true);
 assert(runtime.nextAddress == 30);
 
 //  test gosub / return
@@ -175,14 +175,14 @@ n = runtime.findTokens("GOSUB 100");
 runtime.nextAddress = 20;
 runtime.goCount = 0;
 ok = runtime.runGosub();
-assert(ok == TRUE);
+assert(ok == true);
 assert(runtime.nextAddress == 100);
 assert(runtime.goCount = 1);
 assert(runtime.goStack[0] == 20);
 
 n = runtime.findTokens("RETURN");
 ok = runtime.runReturn();
-assert(ok == TRUE);
+assert(ok == true);
 assert(runtime.nextAddress == 20);
 assert(runtime.goCount == 0);
 assert(runtime.goStack[0] == 0);
@@ -194,7 +194,7 @@ n = runtime.findTokens("GOSUB 100");
 runtime.nextAddress = 20;
 runtime.goCount = 7;
 ok = runtime.runGosub();
-assert(ok == FALSE);
+assert(ok == false);
 assert(strcmp(runtime.msg, "Stack overflow") == 0);
 
 //  test return with empty stack 
@@ -204,7 +204,7 @@ n = runtime.findTokens("RETURN");
 runtime.nextAddress = 20;
 runtime.goCount = 0;
 ok = runtime.runReturn();
-assert(ok == FALSE);
+assert(ok == false);
 assert(strcmp(runtime.msg, "Stack underflow") == 0);
 
 //  test stop statement
@@ -213,7 +213,7 @@ printf("Testing stop statement \n");
 n = runtime.findTokens("STOP");
 runtime.nextAddress = 20;
 ok = runtime.runStop();
-assert(ok == TRUE);
+assert(ok == true);
 assert(runtime.nextAddress == -1);
 
 //  test basic run method
@@ -224,10 +224,39 @@ codeList.add(new objStatement("10 LET A = 1"));
 codeList.add(new objStatement("20 LET B = 2"));
 codeList.add(new objStatement("30 LET C = A + B"));
 ok = runtime.run(codeList);
-assert(ok == TRUE);
+assert(ok == true);
 assert(runtime.varList.getVariable('A') == 1);
 assert(runtime.varList.getVariable('B') == 2);
 assert(runtime.varList.getVariable('C') == 3);
+
+//  test run with gosub
+
+printf("Testing  run method with gosub\n");
+codeList.clear();
+codeList.add(new objStatement("10 LET A = 1"));
+codeList.add(new objStatement("20 GOSUB 50"));
+codeList.add(new objStatement("30 STOP"));
+codeList.add(new objStatement("50 LET A = 2"));
+codeList.add(new objStatement("60 RETURN"));
+ok = runtime.run(codeList);
+assert(ok == true);
+assert(runtime.varList.getVariable('A') == 2);
+
+//  test run with nested gosubs
+
+printf("Testing  run method with nested gosubs\n");
+codeList.clear();
+codeList.add(new objStatement("10 LET A = 1"));
+codeList.add(new objStatement("20 GOSUB 50"));
+codeList.add(new objStatement("30 STOP"));
+codeList.add(new objStatement("50 LET A = 2"));
+codeList.add(new objStatement("60 GOSUB 100"));
+codeList.add(new objStatement("70 RETURN"));
+codeList.add(new objStatement("100 LET A = 3"));
+codeList.add(new objStatement("110 RETURN"));
+ok = runtime.run(codeList);
+assert(ok == true);
+assert(runtime.varList.getVariable('A') == 3);
 
 //  done
 

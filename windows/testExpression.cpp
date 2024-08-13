@@ -12,7 +12,7 @@ int main() {
   objExpression expr;
   objVariables vars;
   float f = 0.0;
-  bool ok = TRUE;
+  bool ok = true;
   
 //  test cases
 
@@ -63,8 +63,8 @@ int main() {
 //  test for valid operators
 
   printf("Testing isOperator method\n");
-  assert(expr.isOperator("*") == TRUE);
-  assert(expr.isOperator("0") == FALSE);
+  assert(expr.isOperator("*") == true);
+  assert(expr.isOperator("0") == false);
 
 //  test get precedence
 
@@ -168,36 +168,36 @@ assert(expr.getTokenType("2.z") == __unknown);
 
 printf ("Testing is valid with no errors method\n");
 ok = expr.isValid(test7, 0, 2);
-assert (ok == TRUE);
+assert (ok == true);
 
 //  test valid with parens
 
 printf ("Testing is valid with parens\n");
 ok = expr.isValid(test6, 0, 10);
-assert (ok == TRUE);
+assert (ok == true);
 
 printf ("Testing is valid with operator error errors method\n");
 ok = expr.isValid(testError1, 0, 3);
-assert (ok == FALSE);
+assert (ok == false);
 
 //  test with missing parens
 printf ("Testing is valid with missing parens\n");
 ok = expr.isValid(test6, 0, 9);
-assert (ok == FALSE);
+assert (ok == false);
 
 //  test is comparison method
 
 printf("Testing is comparison operator method\n");
-assert(expr.isComparison("<") == TRUE);
-assert(expr.isComparison("<>") == TRUE);
-assert(expr.isComparison("==") == FALSE);
+assert(expr.isComparison("<") == true);
+assert(expr.isComparison("<>") == true);
+assert(expr.isComparison("==") == false);
 
 //  test compare method
 
 printf("Testing compare method\n");
-assert (expr.compare(">", 5, 2) == TRUE);
-assert (expr.compare("<=", 2, 5) == TRUE);
- assert(expr.compare("=", 2, 3) == FALSE);
+assert (expr.compare(">", 5, 2) == true);
+assert (expr.compare("<=", 2, 5) == true);
+ assert(expr.compare("=", 2, 3) == false);
  
 //  done
 

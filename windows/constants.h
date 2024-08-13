@@ -15,9 +15,3 @@
 //  maximum nested gosubs
 
 #define MAX_GOSTACK 7
-
-//  true and false
-
-#define TRUE 1
-#define FALSE 0
-
