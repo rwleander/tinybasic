@@ -123,6 +123,7 @@ if (strcmp(tokens[0], "INPUT") == 0) {
 	if (strcmp(tokens[0], "STOP") == 0) {
 		return runStop();
 	}
+	
 		//  bad statement
 	
 	strcpy (msg, "Unknown statement");
