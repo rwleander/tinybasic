@@ -79,6 +79,22 @@ void doCommand(char* buff) {
     return;
   }
 
+//  load
+
+if (strcmp(buff, "LOAD") == 0) {
+	printf("Not ready\n");
+	return; 
+}
+
+//  save
+
+if (strcmp(buff, "SAVE") == 0) {
+	printf("Not ready\n");
+	return;
+}
+
+//  run
+
 if (strcmp(buff, "RUN") == 0) {
 	if (codeList.count == 0) {
 		printf("Nothing to run\n");

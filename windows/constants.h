@@ -1,5 +1,8 @@
 //  constants.h - shared constants and lists
 
+#ifndef __constants
+#define _constants
+
 //  max lines of basic code 
 
 #define MAX_LINES 25
@@ -15,3 +18,10 @@
 //  maximum nested gosubs
 
 #define MAX_GOSTACK 7
+
+//  file path and extension
+
+#define filePath "basic\\"
+#define fileExt ".bas"
+
+#endif

@@ -8,6 +8,8 @@ Use the following commands to control the interpreter:
 * NEW - erase all program code from memory,
 *LIST - list the program code,
 * RUN - run the program,
+* LOAD - load a program (Windows only),
+* SAVE - save the   program (Windows only),
 *QUIT - close the program (Windows only),
 
 Statements start with a line number followed by the basic code.

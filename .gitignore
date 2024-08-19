@@ -1,3 +1,5 @@
 arduino-cli.exe
 windows/*.obj
 windows/*.exe
+windows/basic
+
