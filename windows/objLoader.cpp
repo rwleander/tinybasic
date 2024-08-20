@@ -25,7 +25,11 @@ bool objLoader::loadFile(char* fName, objStatementList &codeList) {
 	  
 	  //  open the file
 	  
-	  buildFileName(fName);
+	  if (buildFileName(fName) != true) {
+		    strcpy(msg, "bad command");
+			return false;
+	  }
+	  
 	  fl = fopen(fileName, "r");
 	  if (!fl) {
 		  strcpy(msg, "cannot find file");
@@ -64,7 +68,11 @@ bool objLoader::saveFile(char* fName, objStatementList &codeList) {
   
   //  set up the file name
   
-  buildFileName(fName);
+  if (buildFileName(fName) != true) {
+	    strcpy(msg, "bad command");
+		return false;
+  }
+  
   
   //  open the file
   
@@ -88,10 +96,27 @@ bool objLoader::saveFile(char* fName, objStatementList &codeList) {
   return true;
 }
 
-//  build the file name with path and extension
+//  build the file name from the command line with path and extension
 
-void objLoader::buildFileName(char* fName) {
+bool  objLoader::buildFileName(char* cmd) {
+	  char fName[30];
+	  int i = 0;
+	  int cmdLen = strlen(cmd);
+
+//  if command length is 5 or less, bad command
+if (cmdLen <= 5) return false;
+
+	  //  scan for blank between command and file name
+while (cmd[i] != ' ') i++;
+if (i > cmdLen) return false;
+while (cmd[i] == ' ') i++;
+if (i > cmdLen) return false;
+strcpy(fName, cmd + i);
+
+//  now add the path and extenstion
+	  
 	  strcpy(fileName, filePath);
 	  strcat(fileName, fName);
 	  strcat(fileName, fileExt);
+	  return true;
 }

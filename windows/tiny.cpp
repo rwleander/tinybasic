@@ -2,6 +2,7 @@
 
 #include"objStatementList.h"
 #include "objRuntime.h"
+#include "objLoader.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,7 +50,7 @@ runtime.begin();
   return 0;
 }
 
-//  upshift textattr
+//  upshift text
 
 void upshift(char* buff) {
   for (int i=0; i<strlen(buff); i++) {
@@ -81,16 +82,30 @@ void doCommand(char* buff) {
 
 //  load
 
-if (strcmp(buff, "LOAD") == 0) {
-	printf("Not ready\n");
-	return; 
+if (strncmp(buff, "LOAD ", 5) == 0) {
+	  objLoader loader;
+	  
+	if (loader.loadFile(buff, codeList) == true) {
+		  printf("ok\n");		  
+	}		
+	else {
+		printf("%s\n", loader.msg);
+	}
+	return;   	
 }
 
 //  save
 
-if (strcmp(buff, "SAVE") == 0) {
-	printf("Not ready\n");
-	return;
+if (strncmp(buff, "SAVE ", 5) == 0) {
+	  objLoader loader;
+	  
+	  if (loader.saveFile(buff, codeList) == true) {
+		  printf("ok\n");
+	  }
+	  else {
+		  printf("%s\n", loader.msg);
+	  }
+	  return ;	
 }
 
 //  run

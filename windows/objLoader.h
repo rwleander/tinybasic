@@ -13,7 +13,7 @@ public:
   objLoader();
   bool loadFile(char* fname, objStatementList &codeList);
   bool saveFile(char* fname, objStatementList &codeList);
-  void buildFileName(char* fName);
+  bool buildFileName(char* fName);
 };
 
 #endif
