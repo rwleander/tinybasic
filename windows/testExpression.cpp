@@ -23,6 +23,7 @@ int main() {
   char* test5[] = {"2", "*", "3", "+", "4", "*", "5"};
   char* test6[] = {"(", "2", "+", "3", ")", "*", "(", "4", "+", "5", ")"};
   char* test7[] = {"A", "+", "B"};
+char* test8[] = {"0.00001"};
   
   char* testError1[] = {"A", "+", "*", "B"};
 
@@ -155,6 +156,13 @@ int main() {
   f = expr.evaluate(test7, 0, 2, vars);
   assert(f == 7);
 
+//  testing with decimal pointer
+
+  printf ("Testing with decimal point\n");
+  f = expr.evaluate(test8, 0, 0, vars);
+  float f1 = 0.00001;
+  assert(f == f1);
+
 //  test get token typedef
 printf("Testing get token types\n");
 assert(expr.getTokenType("1.23") == __number);
@@ -168,6 +176,12 @@ assert(expr.getTokenType("2.z") == __unknown);
 
 printf ("Testing is valid with no errors method\n");
 ok = expr.isValid(test7, 0, 2);
+assert (ok == true);
+
+//  test valid with decimal pointer
+
+printf ("Testing is valid with decimal \n");
+ok = expr.isValid(test8, 0, 0);
 assert (ok == true);
 
 //  test valid with parens

@@ -87,7 +87,7 @@ bool objRuntime::runCommand() {
 		
 		// if
 		
-		if (strcmp(tokens[0], "IF") == 0) {
+		if (strcmp(tokens[0], "IF") == 0) {			
 			return runIf();
 		}
 		
@@ -207,7 +207,7 @@ bool objRuntime::runIf() {
 	int n1 = 0;
 	int n2 = 0;
 	int i = 1;
-	bool err = false;
+	int  err = 0;
 	
 	//  scan for tokens
 	
@@ -226,11 +226,11 @@ bool objRuntime::runIf() {
 	
 //  validate  expressions
 
-if (expr.isValid(tokens, 1, n1 - 1) != true) err = true; 
-if (expr.isValid(tokens, n1 + 1, n2 - 1) != true) err = true;
-if (expr.isValid(tokens, n2 + 1, count -1) != true) err = true;
-if (err == true) {
-	strcpy(msg, "Bad expression");
+if (expr.isValid(tokens, 1, n1 - 1) != true) err = 1; 
+if (expr.isValid(tokens, n1 + 1, n2 - 1) != true) err = 2;
+if (expr.isValid(tokens, n2 + 1, count -1) != true) err = 3;
+if (err > 0) {
+	sprintf(msg, "Bad expression %d", err);
 	return false;
 }
 
@@ -387,7 +387,7 @@ strcpy(msg, "Bad statement");
 fgets(txt, 19, stdin);
 txtLen = strlen(txt);
 if (txtLen > 1) {
-	txt[txtLen - 2] = '\0';
+	txt[txtLen - 1] = '\0';
 }
 
 if (isValidNumber(txt) != true) {
@@ -577,7 +577,7 @@ bool objRuntime::isValidNumber(char* txt) {
 		ch = txt[i];
 		isValid = false;
 		
-		if ((ch >= '0') && (ch < '9')) isValid = true;
+		if ((ch >= '0') && (ch <= '9')) isValid = true;
 		if (ch == '.') isValid = true;
 		if (ch == '-') isValid = true;		
 		

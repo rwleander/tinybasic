@@ -1,5 +1,6 @@
 arduino-cli.exe
 windows/*.obj
 windows/*.exe
-windows/basic
+windows/basic/TESTFILE1.bas
+windows/basic/TESTFILE2.bas
 

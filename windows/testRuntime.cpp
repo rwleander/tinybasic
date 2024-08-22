@@ -168,6 +168,16 @@ ok = runtime.runIf();
 assert(ok == true);
 assert(runtime.nextAddress == 30);
 
+//  test longer if
+
+printf("Testing longer runIf method \n");
+n = runtime.findTokens("IF 1.5 >= 0.001 THEN 150");
+assert(runtime.count == 6);
+runtime.nextAddress = 20;
+ok = runtime.runIf();
+assert(ok == true);
+assert(runtime.nextAddress == 150);
+
 //  test gosub / return
 
 printf("Testing gosub statement \n");
