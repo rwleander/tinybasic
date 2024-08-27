@@ -7,20 +7,18 @@
 #define MAX_WORK 500
 
 class objTextBuffer {
-public:  
+public:
   char textWork[MAX_WORK];
-int start = 0;
-int end = 0;
-bool available = false;
+  int start = 0;
+  int end = 0;
+  bool available = false;
 
   objTextBuffer();
-    void clear();
+  void clear();
   void add (char* buff, int n);
   int getText(char* buff);
   bool checkAvailable();
   void compress();
-
-   
 };
 
 #endif

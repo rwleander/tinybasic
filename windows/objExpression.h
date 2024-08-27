@@ -22,7 +22,7 @@ public:
   char* rpn[MAX_TOKENS];
   int count = 0;
 
-  float evaluate(char* values[], int n1, int n2, objVariables &vars);  
+  float evaluate(char* values[], int n1, int n2, objVariables &vars);
   void clear();
   void copy(char* values[], int n1, int n2);
   void loadRpn();
@@ -41,8 +41,8 @@ protected:
   int opCount = 0;
   int rpnCount = 0;
   int calcCount = 0;
-
-  void setOperator(char* token);  
+  
+  void setOperator(char* token);
   bool isNumeric (char* token);
 };
 

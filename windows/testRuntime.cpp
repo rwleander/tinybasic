@@ -10,35 +10,35 @@
 #include <assert.h>
 
 int main() {
-  objRuntime runtime;  
-  objStatementList codeList;
-  char buff[100];
-  int n;
-  bool ok;
+objRuntime runtime;
+objStatementList codeList;
+char buff[100];
+int n;
+bool ok;
 
 //  setup
-  
-  printf("Testing runtime\n");
+
+printf("Testing runtime\n");
 
 runtime.begin();
 codeList.begin();
 
-  //  test find token methods
-  //  simple test
-  
-  printf("Testing find tokens method - print a\n");
-  n = runtime.findTokens("PRINT A");
-  assert(runtime.count == 2);
-  assert(strcmp(runtime.tokens[0], "PRINT") == 0);
+//  test find token methods
+//  simple test
+
+printf("Testing find tokens method - print a\n");
+n = runtime.findTokens("PRINT A");
+assert(runtime.count == 2);
+assert(strcmp(runtime.tokens[0], "PRINT") == 0);
 assert(strcmp(runtime.tokens[1], "A") == 0);
 assert (n == 2);
 
 //  test get tokens with commas
 
 printf("Testing get token method with commas\n");
-  n = runtime.findTokens("PRINT A, B");  
-  assert(runtime.count == 4);
-  assert(strcmp(runtime.tokens[0], "PRINT") == 0);
+n = runtime.findTokens("PRINT A, B");
+assert(runtime.count == 4);
+assert(strcmp(runtime.tokens[0], "PRINT") == 0);
 assert(strcmp(runtime.tokens[1], "A") == 0);
 assert(strcmp(runtime.tokens[2], ",") == 0);
 assert(strcmp(runtime.tokens[3], "B") == 0);
@@ -46,9 +46,9 @@ assert(strcmp(runtime.tokens[3], "B") == 0);
 //  test more complex expression
 
 printf("Testing get token method with parenthesis\n");
-  n = runtime.findTokens("LET A = B * (C + D)");  
-  assert(runtime.count == 10);
-  assert(strcmp(runtime.tokens[0], "LET") == 0);
+n = runtime.findTokens("LET A = B * (C + D)");
+assert(runtime.count == 10);
+assert(strcmp(runtime.tokens[0], "LET") == 0);
 assert(strcmp(runtime.tokens[1], "A") == 0);
 assert(strcmp(runtime.tokens[2], "=") == 0);
 assert(strcmp(runtime.tokens[3], "B") == 0);
@@ -113,12 +113,12 @@ n = runtime.findTokens("LET A = 1");
 assert(n == 4);
 ok = runtime.runLet();
 assert(ok == true);
-assert (runtime.varList.getVariable('A') == 1); 
+assert (runtime.varList.getVariable('A') == 1);
 
 //  test more complex let statement\n
 
 printf ("Testing longer let statement\n");
-n = runtime.findTokens("LET B = 2 * (3 + 4)"); 
+n = runtime.findTokens("LET B = 2 * (3 + 4)");
 ok = runtime.runLet();
 assert(ok == true);
 assert(runtime.varList.getVariable('B') == 14);
@@ -207,7 +207,7 @@ ok = runtime.runGosub();
 assert(ok == false);
 assert(strcmp(runtime.msg, "Stack overflow") == 0);
 
-//  test return with empty stack 
+//  test return with empty stack
 
 printf("Testing return  statement with empty stack \n");
 n = runtime.findTokens("RETURN");
@@ -270,6 +270,6 @@ assert(runtime.varList.getVariable('A') == 3);
 
 //  done
 
-  printf("Tests complete\n");
-  return 0;
+printf("Tests complete\n");
+return 0;
 }

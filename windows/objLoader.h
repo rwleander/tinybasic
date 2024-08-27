@@ -6,10 +6,10 @@
 #include "objStatementList.h"
 
 class objLoader {
-public:  
+public:
   char fileName[50];
   char msg[100];
-  
+
   objLoader();
   bool loadFile(char* fname, objStatementList &codeList);
   bool saveFile(char* fname, objStatementList &codeList);

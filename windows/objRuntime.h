@@ -17,20 +17,20 @@ public:
   char msg[100];
   char* tokens[MAX_TOKENS];
   int sequence;
-char* text;
+  char* text;
   int count = 0;
-int nextAddress = 0;
-int goStack[MAX_GOSTACK];
-int goCount = 0;
+  int nextAddress = 0;
+  int goStack[MAX_GOSTACK];
+  int goCount = 0;
 
-void begin();
-bool run(objStatementList &codeList);
+  void begin();
+  bool run(objStatementList &codeList);
 
-bool runGoto();
-bool runGosub();
-bool runReturn();
-bool runIf();
-bool runLet();
+  bool runGoto();
+  bool runGosub();
+  bool runReturn();
+  bool runIf();
+  bool runLet();
   bool runPrint(char* output);
   bool runInput();
   bool runRem();
@@ -41,14 +41,14 @@ bool runLet();
 
 protected:
   char tokenData[MAX_STRING + MAX_TOKENS];
-char printerBuff[100];
+  char printerBuff[100];
   
   bool runCommand();
   bool printExpression(char* output, int n1, int n2);
   void clearTokens();
   void copyTokens(char* text);
   void getTokenList();
-  void stripQuotes(char* txt);  
+  void stripQuotes(char* txt);
 };
 
 #endif

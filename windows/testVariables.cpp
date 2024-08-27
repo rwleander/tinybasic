@@ -5,15 +5,15 @@
 #include "objVariables.h"
 
 int main() {
-  objVariables vars;
-  
-  //  test begin
-  
-  printf("Testing begin method\n");
-    vars.begin();
-	assert (vars.values[0] == 0.0);
-	assert (vars.values[13] == 0.0);
-	assert (vars.values[25] == 0.0);
+objVariables vars;
+
+//  test begin
+
+printf("Testing begin method\n");
+vars.begin();
+assert (vars.values[0] == 0.0);
+assert (vars.values[13] == 0.0);
+assert (vars.values[25] == 0.0);
 
 // test clear
 
@@ -45,7 +45,7 @@ assert(vars.getVariable('J') == 20.0);
 assert(vars.getVariable('Z') == 30.0);
 
 // done
-	
-	printf("Tests complete\n");
-	return 0;
+
+printf("Tests complete\n");
+return 0;
 }

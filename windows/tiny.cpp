@@ -22,144 +22,144 @@ bool quitFlag = false;
 
 //  main
 int main() {
-  char buff[100];
+	char buff[100];
 
-//  title
+	//  title
 
-  printf("Tiny Basic for the ESP32\n");
+	printf("Tiny Basic for the ESP32\n");
 
-codeList.begin();
-runtime.begin();
+	codeList.begin();
+	runtime.begin();
 
-//  command loop
+	//  command loop
 
-  while (quitFlag == false) {
-    strcpy(buff, "");
-    printf(">");
-    fgets(buff, 99, stdin);
+	while (quitFlag == false) {
+		strcpy(buff, "");
+		printf(">");
+		fgets(buff, 99, stdin);
 
-    upshift(buff);
-	if (strlen(buff) > 0) {
-      doCommand(buff);
+		upshift(buff);
+		if (strlen(buff) > 0) {
+			doCommand(buff);
+		}
 	}
-  }
 
-//  end program
+	//  end program
 
-  printf("Bye\n");
-  return 0;
+	printf("Bye\n");
+	return 0;
 }
 
 //  upshift text
 
 void upshift(char* buff) {
-  for (int i=0; i<strlen(buff); i++) {
-    if ((buff[i] >= 'a') && (buff[i] <= 'z')) {
-      buff[i] = buff[i] + 'A' - 'a';
-    }
+	for (int i = 0; i < strlen(buff); i++) {
+		if ((buff[i] >= 'a') && (buff[i] <= 'z')) {
+			buff[i] = buff[i] + 'A' - 'a';
+		}
 
-    if (buff[i] == '\n') {
-      buff[i] = '\0';
-    }
-  }
+		if (buff[i] == '\n') {
+			buff[i] = '\0';
+		}
+	}
 }
 
 //  process command
 
 void doCommand(char* buff) {
-  objStatement validator;
- 
-  if (strcmp(buff, "NEW") == 0) {
-    codeList.clear();
-    printf("Ok\n");
-    return;
-  }
+	objStatement validator;
 
-  if (strcmp(buff, "LIST") == 0) {
-    listCode();
-    return;
-  }
-
-//  load
-
-if (strncmp(buff, "LOAD ", 5) == 0) {
-	  objLoader loader;
-	  
-	if (loader.loadFile(buff, codeList) == true) {
-		  printf("ok\n");		  
-	}		
-	else {
-		printf("%s\n", loader.msg);
-	}
-	return;   	
-}
-
-//  save
-
-if (strncmp(buff, "SAVE ", 5) == 0) {
-	  objLoader loader;
-	  
-	  if (loader.saveFile(buff, codeList) == true) {
-		  printf("ok\n");
-	  }
-	  else {
-		  printf("%s\n", loader.msg);
-	  }
-	  return ;	
-}
-
-//  run
-
-if (strcmp(buff, "RUN") == 0) {
-	if (codeList.count == 0) {
-		printf("Nothing to run\n");
+	if (strcmp(buff, "NEW") == 0) {
+		codeList.clear();
+		printf("Ok\n");
 		return;
 	}
-	
-if (	runtime.run(codeList) != true) {
-	printf("%d %s\n", runtime.sequence, runtime.text);
-	printf("%s\n", runtime.msg);
-}	
 
-	return;
-}
-	
-  if (strcmp(buff, "QUIT") == 0) {
-    quitFlag = true;
-    return;
-  }
+	if (strcmp(buff, "LIST") == 0) {
+		listCode();
+		return;
+	}
 
-  if (validator.isValid(buff) == 1) {
-    objStatement* stmt = new objStatement(buff);
-    codeList.add(stmt);
-    printf("Ok\n");
-    return;
-  }
-  else {
-	  printf ("Bad statement\n");
-	  return;
-  }
-  printf("Unknown command\n");
-  
+	//  load
+
+	if (strncmp(buff, "LOAD ", 5) == 0) {
+		objLoader loader;
+
+		if (loader.loadFile(buff, codeList) == true) {
+			printf("ok\n");
+		}
+		else {
+			printf("%s\n", loader.msg);
+		}
+		return;
+	}
+
+	//  save
+
+	if (strncmp(buff, "SAVE ", 5) == 0) {
+		objLoader loader;
+
+		if (loader.saveFile(buff, codeList) == true) {
+			printf("ok\n");
+		}
+		else {
+			printf("%s\n", loader.msg);
+		}
+		return;
+	}
+
+	//  run
+
+	if (strcmp(buff, "RUN") == 0) {
+		if (codeList.count == 0) {
+			printf("Nothing to run\n");
+			return;
+		}
+
+		if (runtime.run(codeList) != true) {
+			printf("%d %s\n", runtime.sequence, runtime.text);
+			printf("%s\n", runtime.msg);
+		}
+
+		return;
+	}
+
+	if (strcmp(buff, "QUIT") == 0) {
+		quitFlag = true;
+		return;
+	}
+
+	if (validator.isValid(buff) == 1) {
+		objStatement* stmt = new objStatement(buff);
+		codeList.add(stmt);
+		printf("Ok\n");
+		return;
+	}
+	else {
+		printf("Bad statement\n");
+		return;
+	}
+	printf("Unknown command\n");
+
 }
 
 //  list the program codeList
 
 void listCode() {
-  objStatement* stmt;
+	objStatement* stmt;
 
-//  if no code, say so
+	//  if no code, say so
 
-  if (codeList.count == 0) {
-    printf("Nothing to list\n");
-    return;
-  }
+	if (codeList.count == 0) {
+		printf("Nothing to list\n");
+		return;
+	}
 
-//  otherwise, list the code
+	//  otherwise, list the code
 
-  for (int i=0; i<codeList.count; i++){    
-    printf("%d %s\n", codeList.getSequence(i), codeList.getText(i));
-  }
+	for (int i = 0; i < codeList.count; i++) {
+		printf("%d %s\n", codeList.getSequence(i), codeList.getText(i));
+	}
 
-  printf("Ok\n");
+	printf("Ok\n");
 }
