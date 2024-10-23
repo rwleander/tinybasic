@@ -260,9 +260,10 @@ bool objExpression::compare(char* op, float f1, float f2) {
 bool objExpression::isValid(char* tokens[], int n1, int n2) {
   int thisTokenType = getTokenType(tokens[n1]);
   int lastTokenType = 0;
+  int nextTokenType = 0;  
   int parenCount = 0;
 
-//  if only one expression, it must be a number or variables
+//  if only one token, it must be a number or variables
 
   if (n1 == n2) {
     if (thisTokenType == __number) return true;
@@ -282,18 +283,26 @@ bool objExpression::isValid(char* tokens[], int n1, int n2) {
     int i = n1 + 1;
     while (i <= n2) {
       thisTokenType = getTokenType(tokens[i]);
+	  nextTokenType = 0;
+	  if (i < n2) nextTokenType = getTokenType(tokens[i + 1]);
+	  
       if (thisTokenType == __unknown) return false;
       
       switch (thisTokenType) {
         case __number:
         case __variable:
+		case __function:
           if (lastTokenType == __number) return false;
           if (lastTokenType == __variable) return false;
+		  if (lastTokenType == __function) return false;
           if (lastTokenType == __rightParen) return false;
-          break;
+		  
+		  if ((thisTokenType == __function) && (nextTokenType != __leftParen)) return false;		  		  
+		  break;
 
         case __operator:
           if (lastTokenType == __operator) return false;
+		  if (lastTokenType == __function) return false;
           if (lastTokenType == __leftParen) return false;
           break;
 
@@ -305,6 +314,7 @@ bool objExpression::isValid(char* tokens[], int n1, int n2) {
 
         case __rightParen:
           if (lastTokenType == __operator) return false;
+		  if (lastTokenType == __function) return false;
           parenCount--;
           break;
       }
@@ -316,6 +326,7 @@ bool objExpression::isValid(char* tokens[], int n1, int n2) {
 // 		last token cannot be an operator
 
   if (getTokenType(tokens[n2]) == __operator) return false;
+  if (getTokenType(tokens[n2]) == __function) return false;
 
 //  make sure parens match
 
@@ -336,6 +347,10 @@ int objExpression::getTokenType(char* token) {
 //  operator
 
   if (isOperator(token) == true) return __operator;
+
+//  functions
+
+if (isFunction(token) == true) return __function;
 
 //  numbers
 

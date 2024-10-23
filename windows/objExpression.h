@@ -13,6 +13,7 @@
 #define __operator 3
 #define __leftParen 4
 #define __rightParen 5
+#define __function 6
 #define __unknown 0
 
 

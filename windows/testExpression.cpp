@@ -26,6 +26,7 @@ char* test7[] = {"A", "+", "B"};
 char* test8[] = {"0.00001"};
 char* test9[] = {"ABS", "(", "-1", ")"};
 char* testError1[] = {"A", "+", "*", "B"};
+char* testError2[] = {"A", "+", "ABS", "-1"};
 
 //  setup
 
@@ -212,6 +213,13 @@ assert (ok == true);
 printf ("Testing is valid with parens\n");
 ok = expr.isValid(test6, 0, 10);
 assert (ok == true);
+
+printf ("Testing is valid with function\n");
+ok = expr.isValid(test9, 0, 3);
+assert (ok == true);
+
+ok = expr.isValid(testError2, 0, 3);
+assert (ok == false);
 
 printf ("Testing is valid with operator error errors method\n");
 ok = expr.isValid(testError1, 0, 3);
