@@ -17,12 +17,16 @@ float objExpression::evaluate(char* values[], int n1, int n2, objVariables &vars
 
 //  clear tokens
 
-void objExpression::clear() {
+void objExpression::clear() {	
   for (int i=0; i<MAX_TOKENS; i++) {
     tokens[i] = 0;
     rpn[i] = 0;
+	calcStack[i] = 0;
   }
+  
   count = 0;
+  rpnCount = 0;
+  calcCount = 0;
 }
 
 //  copy tokens
@@ -55,7 +59,7 @@ void objExpression::loadRpn() {
     for (int i=0; i<count; i++) {
       token =  tokens[i];
 
-      if (isOperator(token) == true) {
+      if ((isOperator(token) == true) || (isFunction(token) == true)) {
         setOperator(token);
       }
       else {
@@ -151,6 +155,9 @@ float objExpression::calculate(objVariables &vars) {
 
 calcCount = 0;
   for (int i = 0; i < rpnCount; i++) {
+	  
+	  //  process operators
+	  
     if (isOperator(rpn[i]) == true) {
       if (calcCount < 2) return 0.0;
 
@@ -186,16 +193,32 @@ calcCount = 0;
       calcStack[calcCount - 2] = z;
       calcCount--;
     }
+	else {
+		
+		//  process functions
+		
+		if (isFunction (rpn[i]) == true ) {
+	if (strcmp(rpn[i], "ABS") == 0) {
+		calcAbs();
+	}		
+	}
     else {
+		
+		//  substitute variables
+		
       ch = rpn[i][0];
       if ((ch >='A') && (ch <= 'Z')) {
         calcStack[calcCount] = vars.getVariable(ch);
       }
       else {
+		  
+		  //  handle numbers
+		  
         calcStack[calcCount] = strtof(rpn[i], lastChar);
       }
       calcCount++;
     }
+  }
   }
   
   if (calcCount == 1) {
@@ -231,7 +254,6 @@ bool objExpression::compare(char* op, float f1, float f2) {
 
   return false;
 }
-
 
 //  see if expression is valid
 
@@ -353,6 +375,14 @@ if (getPrecedence(value) >= 0) return true;
 return false;
 }
 
+//  check if token is a function, if so, return number of parameters
+
+bool objExpression::isFunction(char* value) {
+	if (strcmp(value, "ABS") == 0) return true;
+	if (strcmp(value, "PI") == 0) return true;
+	return false;
+}
+
 //  get operator precedence
 
 int objExpression::getPrecedence(char* value) {
@@ -386,6 +416,19 @@ i++;
 }
 
 return true;
+}
+
+//  functions
+//  absolute value
+
+bool objExpression::calcAbs() {
+	if (calcCount == 0) {
+		return false;
+	}
+	
+	if (calcStack[calcCount - 1] < 0.0) 
+		calcStack[calcCount -1] = 0.0 - calcStack[calcCount - 1];
+	return true;
 }
 
 

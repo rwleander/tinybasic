@@ -24,7 +24,10 @@ char* test5[] = {"2", "*", "3", "+", "4", "*", "5"};
 char* test6[] = {"(", "2", "+", "3", ")", "*", "(", "4", "+", "5", ")"};
 char* test7[] = {"A", "+", "B"};
 char* test8[] = {"0.00001"};
+char* test9[] = {"ABS", "(", "-1", ")"};
 char* testError1[] = {"A", "+", "*", "B"};
+
+//  setup
 
 vars.begin();
 vars.setVariable('A', 3);
@@ -66,11 +69,19 @@ printf("Testing isOperator method\n");
 assert(expr.isOperator("*") == true);
 assert(expr.isOperator("0") == false);
 
+//  test isFunction 
+
+printf("Testing isFunction method\n");
+assert(expr.isFunction ("ABS") == true);
+assert(expr.isFunction("PI") == true);
+assert(expr.isFunction("XYZ") == false);
+
 //  test get precedence
 
 printf ("Testing getPrecedence method\n");
 assert(expr.getPrecedence("/") == 3);
 assert(expr.getPrecedence("0") == -1);
+assert(expr.getPrecedence("ABS") == -1);
 
 //  test load rpn method\n");
 
@@ -143,6 +154,19 @@ assert(strcmp(expr.rpn[6], "*") == 0);
 f = expr.calculate(vars);
 assert (f == 45);
 
+//  test load rpn and calc with function
+
+printf("Testing calc with function\n");
+expr.copy(test9, 0, 3);
+assert(expr.count == 4);
+expr.loadRpn();
+assert(strcmp(expr.rpn[0], "-1") == 0);
+assert(strcmp(expr.rpn[1], "ABS") == 0);
+assert(expr.rpnCount == 2);
+
+f = expr.calculate(vars);
+assert (f == 1);
+
 //  test evaluate method
 
 printf("Testing evaluate method\n");
@@ -212,6 +236,31 @@ printf("Testing compare method\n");
 assert (expr.compare(">", 5, 2) == true);
 assert (expr.compare("<=", 2, 5) == true);
 assert(expr.compare("=", 2, 3) == false);
+
+//  test functions
+
+printf("testing abs function\n");
+expr.clear();
+expr.calcStack[0] = -5;
+expr.calcCount = 1;
+ok = expr.calcAbs();
+assert(ok == true);
+assert(expr.calcCount == 1);
+assert(expr.calcStack[0] == 5);
+
+expr.calcStack[0] = 7.0;
+ok = expr.calcAbs();
+assert(ok == true);
+assert(expr.calcCount == 1);
+assert(expr.calcStack[0] == 7);
+
+//  test with empty stack
+
+expr.calcStack[0] = 0;
+expr.calcCount = 0;
+ok = expr.calcAbs();
+assert(ok == false);
+
 
 //  done
 

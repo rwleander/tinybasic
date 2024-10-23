@@ -59,6 +59,19 @@ assert(strcmp(runtime.tokens[7], "+") == 0);
 assert(strcmp(runtime.tokens[8], "D") == 0);
 assert(strcmp(runtime.tokens[9], ")") == 0);
 
+//  test find tokens with function
+
+printf("Testing get token method with function\n");
+n = runtime.findTokens("LET A = ABS(X)"); 
+assert(runtime.count == 7);
+assert(strcmp(runtime.tokens[0], "LET") == 0);
+assert(strcmp(runtime.tokens[1], "A") == 0);
+assert(strcmp(runtime.tokens[2], "=") == 0);
+assert(strcmp(runtime.tokens[3], "ABS") == 0);
+assert(strcmp(runtime.tokens[4], "(") == 0);
+assert(strcmp(runtime.tokens[5], "X") == 0);
+assert(strcmp(runtime.tokens[6], ")") == 0);
+
 //  test is valid number\n
 
 printf("Testing is valid number\n");
