@@ -296,6 +296,26 @@ assert(ok == true);
 assert(expr.calcCount == 1);
 assert (expr.calcStack[0] == pi);
 
+//  test rnd function
+
+printf("testing rnd function\n");
+expr.clear();
+ok = expr.calcRnd();
+assert(ok == true);
+assert(expr.calcCount == 1);
+assert (expr.calcStack[0] >= 0.0);
+assert (expr.calcStack[0] < 1.0);
+f = expr.calcStack[0];
+
+expr.clear();
+ok = expr.calcRnd();
+assert(ok == true);
+assert(expr.calcCount == 1);
+assert (expr.calcStack[0] >= 0.0);
+assert (expr.calcStack[0] < 1.0);
+assert (expr.calcStack[0] != f);
+ 
+
 
 
 //  done

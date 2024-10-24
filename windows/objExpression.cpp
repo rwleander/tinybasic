@@ -8,7 +8,7 @@
 
 //  evaluate an expression
 
-float objExpression::evaluate(char* values[], int n1, int n2, objVariables &vars) {
+float objExpression::evaluate(char* values[], int n1, int n2, objVariables &vars) {	
   clear();
   copy(values, n1, n2);
   loadRpn();
@@ -201,6 +201,7 @@ calcCount = 0;
 	if (strcmp(rpn[i], "ABS") == 0)  calcAbs();
 	if (strcmp(rpn[i], "INT") == 0)  calcInt();
 	if (strcmp(rpn[i], "PI") == 0)  calcPi();
+	if (strcmp(rpn[i], "RND") == 0)  calcRnd();
 	
 	
 	}
@@ -398,6 +399,7 @@ bool objExpression::isFunction(char* value) {
 	if (strcmp(value, "ABS") == 0) return true;
 	if (strcmp(value, "INT") == 0) return true;
 	if (strcmp(value, "PI") == 0) return true;
+	if (strcmp(value, "RND") == 0) return true;
 	return false;
 }
 
@@ -464,3 +466,8 @@ bool objExpression::calcPi() {
 	return true;
 }
 
+//  generate random number and put on stack
+
+bool objExpression::calcRnd() {
+	return false;
+}

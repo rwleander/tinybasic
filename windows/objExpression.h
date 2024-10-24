@@ -41,6 +41,7 @@ public:
   bool calcAbs();
   bool calcInt();
   bool calcPi();
+  bool calcRnd();
 
 protected:
   char* operators[MAX_OPERATORS] = {"+", "-", "*", "/", "^", "(", ")"};
