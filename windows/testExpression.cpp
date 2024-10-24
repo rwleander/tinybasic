@@ -269,6 +269,34 @@ expr.calcCount = 0;
 ok = expr.calcAbs();
 assert(ok == false);
 
+//  test int function
+
+printf("testing int  function\n");
+expr.clear();
+expr.calcStack[0] = 3.1415;
+expr.calcCount = 1;
+ok = expr.calcInt();
+assert(ok == true);
+assert(expr.calcCount == 1);
+assert(expr.calcStack[0] == 3);
+
+expr.calcStack[0] = -3.15;
+ok = expr.calcInt();
+assert(ok == true);
+assert(expr.calcCount == 1);
+assert(expr.calcStack[0] == -3);
+
+//  test calcPi
+
+printf("testing pi function\n");
+float pi = 3.14159;
+expr.clear();
+ok = expr.calcPi();
+assert(ok == true);
+assert(expr.calcCount == 1);
+assert (expr.calcStack[0] == pi);
+
+
 
 //  done
 

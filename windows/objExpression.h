@@ -39,6 +39,8 @@ public:
   int getPrecedence(char* value);
   int getTokenType(char* token);
   bool calcAbs();
+  bool calcInt();
+  bool calcPi();
 
 protected:
   char* operators[MAX_OPERATORS] = {"+", "-", "*", "/", "^", "(", ")"};

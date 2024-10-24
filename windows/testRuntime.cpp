@@ -144,6 +144,23 @@ ok = runtime.runLet();
 assert(ok == true);
 assert(runtime.varList.getVariable('C') == 15);
 
+//  test let with abs function
+
+printf ("Testing  let statement with function\n");
+n = runtime.findTokens("LET C = ABS(5 - 7)");
+ok = runtime.runLet();
+assert(ok == true);
+assert(runtime.varList.getVariable('C') == 2);
+
+//  test let with pi function
+
+printf ("Testing  let statement with pi function\n");
+float pi = 3.14159;
+n = runtime.findTokens("LET C = PI()");
+ok = runtime.runLet();
+assert(ok == true);
+assert(runtime.varList.getVariable('C') == pi);
+
 //  test let with error
 
 printf ("Testing  let statement with error\n");

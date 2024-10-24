@@ -198,9 +198,11 @@ calcCount = 0;
 		//  process functions
 		
 		if (isFunction (rpn[i]) == true ) {
-	if (strcmp(rpn[i], "ABS") == 0) {
-		calcAbs();
-	}		
+	if (strcmp(rpn[i], "ABS") == 0)  calcAbs();
+	if (strcmp(rpn[i], "INT") == 0)  calcInt();
+	if (strcmp(rpn[i], "PI") == 0)  calcPi();
+	
+	
 	}
     else {
 		
@@ -394,6 +396,7 @@ return false;
 
 bool objExpression::isFunction(char* value) {
 	if (strcmp(value, "ABS") == 0) return true;
+	if (strcmp(value, "INT") == 0) return true;
 	if (strcmp(value, "PI") == 0) return true;
 	return false;
 }
@@ -437,13 +440,27 @@ return true;
 //  absolute value
 
 bool objExpression::calcAbs() {
-	if (calcCount == 0) {
-		return false;
-	}
-	
+	if (calcCount == 0)  return false;
+		
 	if (calcStack[calcCount - 1] < 0.0) 
 		calcStack[calcCount -1] = 0.0 - calcStack[calcCount - 1];
 	return true;
 }
 
+//  calculate integer portion 
+
+bool objExpression::calcInt() {
+	if (calcCount == 0) return false;
+	int n = calcStack[calcCount - 1];
+	calcStack[calcCount - 1] = n;
+	return true;
+}
+
+//  calculate pi
+
+bool objExpression::calcPi() {
+	calcStack[calcCount] = 3.14159;
+	calcCount++;
+	return true;
+}
 
