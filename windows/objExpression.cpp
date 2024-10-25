@@ -469,5 +469,7 @@ bool objExpression::calcPi() {
 //  generate random number and put on stack
 
 bool objExpression::calcRnd() {
-	return false;
+	calcStack[calcCount] = random.getNext();
+	calcCount++;
+	return true;
 }
