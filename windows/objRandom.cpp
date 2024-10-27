@@ -1,6 +1,8 @@
 //  random number generatr
 //  two different versions for windows and esp32
 
+//  code copied from stack overflow
+
 #include "objRandom.h"
 // constructor
 

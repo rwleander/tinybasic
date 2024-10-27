@@ -152,6 +152,15 @@ ok = runtime.runLet();
 assert(ok == true);
 assert(runtime.varList.getVariable('C') == 2);
 
+
+printf ("Testing  let statement with calculations and function\n");
+n = runtime.findTokens("LET C = 3 + ABS(5 - 7) * 2");
+ok = runtime.runLet();
+assert(ok == true);
+assert(runtime.varList.getVariable('C') == 7);
+
+//  test let with pi 
+//  test let with pi 
 //  test let with pi function
 
 printf ("Testing  let statement with pi function\n");

@@ -25,6 +25,7 @@ char* test6[] = {"(", "2", "+", "3", ")", "*", "(", "4", "+", "5", ")"};
 char* test7[] = {"A", "+", "B"};
 char* test8[] = {"0.00001"};
 char* test9[] = {"ABS", "(", "-1", ")"};
+char* test10[] = {"3", "+", "PI", "(", ")"};
 char* testError1[] = {"A", "+", "*", "B"};
 char* testError2[] = {"A", "+", "ABS", "-1"};
 
@@ -168,6 +169,22 @@ assert(expr.rpnCount == 2);
 f = expr.calculate(vars);
 assert (f == 1);
 
+//  test calc with function calc with function\n");
+
+printf("test calck with function\n");
+expr.copy(test10, 0, 4);
+assert(expr.count == 5);
+expr.loadRpn();
+assert(expr.rpnCount == 3);
+assert(strcmp(expr.rpn[0], "3") == 0);
+assert(strcmp(expr.rpn[1], "PI") == 0);
+assert(strcmp(expr.rpn[2], "+") == 0);
+
+
+f = expr.calculate(vars);
+float  pi = 3.14159;
+assert (f == pi + 3);
+
 //  test evaluate method
 
 printf("Testing evaluate method\n");
@@ -289,7 +306,7 @@ assert(expr.calcStack[0] == -3);
 //  test calcPi
 
 printf("testing pi function\n");
-float pi = 3.14159;
+pi = 3.14159;
 expr.clear();
 ok = expr.calcPi();
 assert(ok == true);

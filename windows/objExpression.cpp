@@ -59,14 +59,20 @@ void objExpression::loadRpn() {
     for (int i=0; i<count; i++) {
       token =  tokens[i];
 
-      if ((isOperator(token) == true) || (isFunction(token) == true)) {
+      if (isOperator(token) == true) {
         setOperator(token);
       }
       else {
+		  if (isFunction(token) == true) {
+			  opStack[opCount] = token;
+			  opCount++;
+		  }
+		  else {
         rpn[rpnCount] = token;
         rpnCount++;
       }
     }
+	}
   
 //  copy remaining tokens
 
@@ -111,6 +117,13 @@ void objExpression::setOperator(char * token) {
     rpn[rpnCount] = opStack[opCount];
     rpnCount++;
     opCount--;
+	
+	//  if function, copy the function to the rpn stack
+	if (isFunction(opStack[opCount]) == true) {
+		rpn[rpnCount] = opStack[opCount];
+		rpnCount++;
+		opCount--;
+	}
   }
 
   return;
