@@ -43,6 +43,7 @@ public:
   bool calcInt();
   bool calcPi();
   bool calcRnd();
+  bool calcSqr();
 
 protected:
   char* operators[MAX_OPERATORS] = {"+", "-", "*", "/", "^", "(", ")"};

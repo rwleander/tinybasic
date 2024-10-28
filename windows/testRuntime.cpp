@@ -170,6 +170,14 @@ ok = runtime.runLet();
 assert(ok == true);
 assert(runtime.varList.getVariable('C') == pi);
 
+//  test square root function
+
+printf ("Testing  let statement with sqr function\n");
+n = runtime.findTokens("LET C = SQR(25)");
+ok = runtime.runLet();
+assert(ok == true);
+assert(runtime.varList.getVariable('C') == 5);
+
 //  test let with error
 
 printf ("Testing  let statement with error\n");

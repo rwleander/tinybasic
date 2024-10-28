@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <cmath>
 
 //  evaluate an expression
 
@@ -215,8 +216,7 @@ calcCount = 0;
 	if (strcmp(rpn[i], "INT") == 0)  calcInt();
 	if (strcmp(rpn[i], "PI") == 0)  calcPi();
 	if (strcmp(rpn[i], "RND") == 0)  calcRnd();
-	
-	
+	if (strcmp(rpn[i], "SQR") == 0)  calcSqr();		
 	}
     else {
 		
@@ -413,6 +413,7 @@ bool objExpression::isFunction(char* value) {
 	if (strcmp(value, "INT") == 0) return true;
 	if (strcmp(value, "PI") == 0) return true;
 	if (strcmp(value, "RND") == 0) return true;
+	if (strcmp(value, "SQR") == 0) return true;
 	return false;
 }
 
@@ -484,5 +485,14 @@ bool objExpression::calcPi() {
 bool objExpression::calcRnd() {
 	calcStack[calcCount] = random.getNext();
 	calcCount++;
+	return true;
+}
+
+//  calculate square root
+
+bool objExpression::calcSqr() {
+	if (calcCount < 1) return false;
+	if (calcStack[calcCount - 1] < 0) return false;
+	calcStack[calcCount - 1] = sqrt(calcStack[calcCount - 1]);
 	return true;
 }

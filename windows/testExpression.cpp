@@ -332,8 +332,23 @@ assert (expr.calcStack[0] >= 0.0);
 assert (expr.calcStack[0] < 1.0);
 assert (expr.calcStack[0] != f);
  
+//  test sqr function
 
+printf("testing sqr   function\n");
+expr.clear();
+expr.calcStack[0] = 16;
+expr.calcCount = 1;
+ok = expr.calcSqr();
+assert(ok == true);
+assert(expr.calcCount == 1);
+assert(expr.calcStack[0] == 4);
 
+printf("testing sqr   function with negative number\n");
+expr.clear();
+expr.calcStack[0] = -2;
+expr.calcCount = 1;
+ok = expr.calcSqr();
+assert(ok == false);
 
 //  done
 
