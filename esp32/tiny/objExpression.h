@@ -5,7 +5,6 @@
 
 #include "constants.h"
 #include "objVariables.h"
-#include "objRandom.h"
 
 #define MAX_OPERATORS 7
 
@@ -27,6 +26,7 @@ public:
   int calcCount = 0;
   int count = 0;
 
+  objExpression();
   float evaluate(char* values[], int n1, int n2, objVariables &vars);
   void clear();
   void copy(char* values[], int n1, int n2);
@@ -49,7 +49,6 @@ protected:
   char* operators[MAX_OPERATORS] = {"+", "-", "*", "/", "^", "(", ")"};
   char* opStack[MAX_TOKENS];  
   int opCount = 0;
-  objRandom random;
         
   void setOperator(char* token);
   bool isNumeric (char* token);

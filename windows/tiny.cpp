@@ -1,5 +1,7 @@
 //  tiny basic interpreter - main program
 
+//  having problem with windows defender marking this as Win32/Wacatac
+
 #include"objStatementList.h"
 #include "objRuntime.h"
 #include "objLoader.h"

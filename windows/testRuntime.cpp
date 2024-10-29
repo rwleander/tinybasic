@@ -178,6 +178,13 @@ ok = runtime.runLet();
 assert(ok == true);
 assert(runtime.varList.getVariable('C') == 5);
 
+//  test exponent operator
+printf ("Testing  let statement with exponent operator\n");
+n = runtime.findTokens("LET C = 2 ^ 4");
+ok = runtime.runLet();
+assert(ok == true);
+assert(runtime.varList.getVariable('C') == 16);
+
 //  test let with error
 
 printf ("Testing  let statement with error\n");

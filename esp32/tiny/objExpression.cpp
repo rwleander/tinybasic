@@ -5,7 +5,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <cmath>
+#include <math.h>
+#include <time.h>
+
+//  constructor - seed random number generator
+
+ objExpression::objExpression() {
+     srand (static_cast <unsigned> (time(0)));
+}
 
 //  evaluate an expression
 
@@ -201,6 +208,10 @@ calcCount = 0;
             z = x / y;
           }
           break;
+		  
+		  case '^':		  
+		  z = pow(x, y);		  
+		  break;
       }
 
       calcStack[calcCount - 1] = 0.0;
@@ -483,7 +494,7 @@ bool objExpression::calcPi() {
 //  generate random number and put on stack
 
 bool objExpression::calcRnd() {
-	calcStack[calcCount] = random.getNext();
+	calcStack[calcCount] = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX));
 	calcCount++;
 	return true;
 }

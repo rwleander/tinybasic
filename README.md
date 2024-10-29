@@ -26,6 +26,13 @@ Statements:
 * REM
 * STOP
 
+Functions:
+ABS(n) - absolute value of n
+INT(n) - integer portion of n
+RND() - generate a random number
+PI() pi (3.14159)
+SQR(n) - square root of n
+
 Sample program:
 
 10 REM  SUM NUMBERS 1 TO 10
