@@ -18,13 +18,14 @@ void objRuntime::begin() {
 
 //  run the program found in codeList
 
-bool objRuntime::run(HardwareSerial* serial, objStatementList& codeList) {
+bool objRuntime::run(HardwareSerial* serial, objStatementList& codeList, bool tracer) {
 	int i;
 
 	//  setup
 
 	varList.clear();
 	nextAddress = codeList.getSequence(0);
+	traceFlag = tracer;
 
 	//  loop through the code, executing statements
 
@@ -37,6 +38,10 @@ bool objRuntime::run(HardwareSerial* serial, objStatementList& codeList) {
 
 		sequence = codeList.getSequence(i);
 		text = codeList.getText(i);
+
+if (traceFlag == true) {
+	serial->printf("%d  ", sequence);
+}
 
 		//  get next address}
 	//  if at end of code, set to -1
@@ -100,6 +105,10 @@ bool objRuntime::runCommand(HardwareSerial* serial) {
 	if (strcmp(tokens[0], "PRINT") == 0) {
 		ok = runPrint(printerBuff);
 		if (ok == true) {
+			if (traceFlag == true) {
+				serial->printf("\n");
+			}
+			
 			serial->printf(printerBuff);
 		}
 		return ok;

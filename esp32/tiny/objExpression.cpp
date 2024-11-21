@@ -210,7 +210,7 @@ calcCount = 0;
           break;
 		  
 		  case '^':		  
-		  z = pow(x, y);		  
+		  z = float(pow(x, y));		  
 		  break;
       }
 

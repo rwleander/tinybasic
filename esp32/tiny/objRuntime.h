@@ -24,7 +24,7 @@ int goStack[MAX_GOSTACK];
 int goCount = 0;
 
 void begin();
-bool run(HardwareSerial* serial, objStatementList& codeList);
+bool run(HardwareSerial* serial, objStatementList& codeList, bool tracer);
 
 bool runGoto();
 bool runGosub();
@@ -43,6 +43,7 @@ protected:
 int sequence;
 char* text;
 char printerBuff[100];
+bool traceFlag = false;
   
   bool runCommand(HardwareSerial* serial);
   bool printExpression(char* output, int n1, int n2); 

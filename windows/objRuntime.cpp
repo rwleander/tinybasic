@@ -19,7 +19,7 @@ void objRuntime::begin() {
 
 //  run the program found in codeList
 
-bool objRuntime::run(objStatementList &codeList) {
+bool objRuntime::run(objStatementList &codeList, bool tracer) {
   int i;
 
 //  setup
@@ -27,6 +27,7 @@ bool objRuntime::run(objStatementList &codeList) {
   varList.clear();
   nextAddress = codeList.getSequence(0);
   goCount = 0;
+  traceFlag = tracer;
 
 //  loop through the code, executing statements
 
@@ -39,6 +40,10 @@ bool objRuntime::run(objStatementList &codeList) {
 
     sequence = codeList.getSequence(i);
     text  = codeList.getText(i);
+
+if (traceFlag == true) {
+	printf("%d  ", sequence);
+}
 
 //  get next address}
 //  if at end of code, set to -1
@@ -102,6 +107,10 @@ bool objRuntime::runCommand() {
   if (strcmp(tokens[0], "PRINT") == 0) {
     ok = runPrint(printerBuff);
     if (ok == true) {
+		if (traceFlag == true) {
+			printf("\n");
+		}
+		
       printf(printerBuff);
     }
   return ok;

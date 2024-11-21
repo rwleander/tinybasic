@@ -25,6 +25,7 @@ objStatementList codeList;
 objRuntime runtime;
 objTextBuffer textWork;
 int startHeap;
+bool traceFlag = false;
 
 //  setup
 
@@ -107,7 +108,21 @@ if (strcmp(buff, "RUN") == 0) {
 		return;
 	}
 	
-	runtime.run(&Serial, codeList);	
+	runtime.run(&Serial, codeList, traceFlag);	
+	return;
+}
+
+//  trace
+
+if (strcmp(buff, "TRACE") == 0) {
+	traceFlag = true;
+	return;
+}
+
+//  untrace
+
+if (strcmp(buff, "UNTRACE") == 0) {
+	traceFlag = false;
 	return;
 }
 

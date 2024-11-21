@@ -20,7 +20,9 @@ void listCode();
 
 objStatementList codeList;
 objRuntime runtime;
+bool traceFlag = false;
 bool quitFlag = false;
+
 
 //  main
 int main() {
@@ -118,13 +120,29 @@ void doCommand(char* buff) {
 			return;
 		}
 
-		if (runtime.run(codeList) != true) {
+		if (runtime.run(codeList, traceFlag) != true) {
 			printf("%d %s\n", runtime.sequence, runtime.text);
 			printf("%s\n", runtime.msg);
 		}
 
 		return;
 	}
+
+//  trace
+
+if (strcmp(buff, "TRACE") == 0) {
+	traceFlag = true;
+	return;
+}
+
+//  untrace
+
+if (strcmp(buff, "UNTRACE") == 0) {
+	traceFlag = false;
+	return;
+}
+
+//  quitFlag
 
 	if (strcmp(buff, "QUIT") == 0) {
 		quitFlag = true;

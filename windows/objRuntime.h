@@ -24,7 +24,7 @@ public:
   int goCount = 0;
 
   void begin();
-  bool run(objStatementList &codeList);
+  bool run(objStatementList &codeList, bool tracer);
 
   bool runGoto();
   bool runGosub();
@@ -42,6 +42,7 @@ public:
 protected:
   char tokenData[MAX_STRING + MAX_TOKENS];
   char printerBuff[100];
+  bool traceFlag = false;
   
   bool runCommand();
   bool printExpression(char* output, int n1, int n2);
