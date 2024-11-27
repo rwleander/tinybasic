@@ -40,7 +40,7 @@ public:
   bool isValidNumber(char* txt);
 
 protected:
-  char tokenData[MAX_STRING + MAX_TOKENS];
+  char tokenData[MAX_TOKEN_LIST];
   char printerBuff[100];
   bool traceFlag = false;
   

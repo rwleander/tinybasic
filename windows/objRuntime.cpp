@@ -331,15 +331,16 @@ bool objRuntime::runPrint(char* output) {
     i++;
   }
 
+bool ok = true;
   if (n1 < count) {
-    printExpression(output, n1, count - 1);
+    ok = printExpression(output, n1, count - 1);
   }
 
   if (strcmp(tokens[count - 1], ",") != 0) {
     strcat(output, "\n");
   }
 
-  return true;
+  return ok;
 }
 
 //  print expressions extracted above

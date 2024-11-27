@@ -119,6 +119,19 @@ ok = runtime.runPrint(buff);
 assert(ok == true);
 assert(strcmp(buff, "3 + 4 =   7.000000\n") == 0);
 
+printf("Testing print with bad expression\n");
+n = runtime.findTokens("PRINT 3 + + 4");
+ok = runtime.runPrint(buff);
+assert(ok == false);
+assert(strcmp(runtime.msg, "Bad expression") == 0);
+
+
+printf("Testing print with another  bad expression\n");
+n = runtime.findTokens("PRINT 3 + + 4, 3 + 2");
+ok = runtime.runPrint(buff);
+assert(ok == false);
+assert(strcmp(runtime.msg, "Bad expression") == 0);
+
 //  test let
 
 printf ("Testing basic let statement\n");
@@ -287,7 +300,7 @@ codeList.clear();
 codeList.add(new objStatement("10 LET A = 1"));
 codeList.add(new objStatement("20 LET B = 2"));
 codeList.add(new objStatement("30 LET C = A + B"));
-ok = runtime.run(codeList);
+ok = runtime.run(codeList, false);
 assert(ok == true);
 assert(runtime.varList.getVariable('A') == 1);
 assert(runtime.varList.getVariable('B') == 2);
@@ -302,7 +315,7 @@ codeList.add(new objStatement("20 GOSUB 50"));
 codeList.add(new objStatement("30 STOP"));
 codeList.add(new objStatement("50 LET A = 2"));
 codeList.add(new objStatement("60 RETURN"));
-ok = runtime.run(codeList);
+ok = runtime.run(codeList, false);
 assert(ok == true);
 assert(runtime.varList.getVariable('A') == 2);
 
@@ -318,7 +331,7 @@ codeList.add(new objStatement("60 GOSUB 100"));
 codeList.add(new objStatement("70 RETURN"));
 codeList.add(new objStatement("100 LET A = 3"));
 codeList.add(new objStatement("110 RETURN"));
-ok = runtime.run(codeList);
+ok = runtime.run(codeList, false);
 assert(ok == true);
 assert(runtime.varList.getVariable('A') == 3);
 

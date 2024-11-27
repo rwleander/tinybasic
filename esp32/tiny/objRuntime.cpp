@@ -37,7 +37,7 @@ bool objRuntime::run(HardwareSerial* serial, objStatementList& codeList, bool tr
 		}
 
 		sequence = codeList.getSequence(i);
-		text = codeList.getText(i);
+		txt = codeList.getText(i);
 
 if (traceFlag == true) {
 	serial->printf("%d  ", sequence);
@@ -56,8 +56,9 @@ if (traceFlag == true) {
 
 		//  parse the statement
 
-		if (findTokens(text) > 0) {
-			if (runCommand(serial) == false) {
+		if (findTokens(txt) > 0) {
+			if (runCommand(serial) == false) {								
+				serial->printf("error  at line %d - %s\n", sequence, msg);
 				return false;
 			}
 		}
@@ -324,15 +325,16 @@ bool objRuntime::runPrint(char* output) {
 		i++;
 	}
 
+bool ok = true;
 	if (n1 < count) {
-		printExpression(output, n1, count - 1);
+		ok = printExpression(output, n1, count - 1);
 	}
 
 	if (strcmp(tokens[count - 1], ",") != 0) {
 		strcat(output, "\n");
 	}
 
-	return true;
+	return ok;
 }
 
 //  print expressions extracted above
@@ -413,9 +415,9 @@ bool objRuntime::runStop() {
 
 //  find tokens in a line of text
 
-int objRuntime::findTokens(char* text) {
+int objRuntime::findTokens(char* txt) {
 	clearTokens();
-	copyTokens(text);
+	copyTokens(txt);
 	getTokenList();
 	return count;
 }
@@ -444,7 +446,7 @@ void objRuntime::clearTokens() {
 
 //  copy the text into a list of tokens separated by nulls ('\0')
 
-void objRuntime::copyTokens(char* text) {
+void objRuntime::copyTokens(char* txt) {
 	bool inQuotes = false;
 
 	char ch;
@@ -452,8 +454,9 @@ void objRuntime::copyTokens(char* text) {
 	int tx = 0;  //  pointer to token  buffer
 
 	//  loop through the text, copying tokens
-	for (int i = 0; i < strlen(text); i++) {
-		ch = text[i];
+	
+	for (int i = 0; i < strlen(txt); i++) {
+		ch = txt[i];
 
 		switch (ch) {
 		case '"':

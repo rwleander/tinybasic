@@ -15,6 +15,11 @@
 
 #define MAX_TOKENS 25
 
+
+//  maximum length of token list
+
+#define MAX_TOKEN_LIST 250
+
 //  maximum nested gosubs
 
 #define MAX_GOSTACK 7

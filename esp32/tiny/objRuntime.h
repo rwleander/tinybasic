@@ -36,19 +36,19 @@ bool runLet();
   bool runRem();
   bool runStop();
 
-  int findTokens(char* text);
+  int findTokens(char* txt);
 
 protected:
-  char tokenData[MAX_STRING + MAX_TOKENS];
 int sequence;
-char* text;
+char* txt;
+  char tokenData[MAX_TOKEN_LIST];
 char printerBuff[100];
 bool traceFlag = false;
   
   bool runCommand(HardwareSerial* serial);
   bool printExpression(char* output, int n1, int n2); 
   void clearTokens();
-  void copyTokens(char* text);
+  void copyTokens(char* txt);
   void getTokenList();
   void stripQuotes(char* txt);
 };
