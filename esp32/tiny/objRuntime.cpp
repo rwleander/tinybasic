@@ -57,8 +57,9 @@ if (traceFlag == true) {
 		//  parse the statement
 
 		if (findTokens(txt) > 0) {
-			if (runCommand(serial) == false) {								
-				serial->printf("error  at line %d - %s\n", sequence, msg);
+			if (runCommand(serial) != true) {								
+				serial->printf("%d %s\n", sequence, txt);
+				serial->printf("%s\n", msg);
 				return false;
 			}
 		}
@@ -326,7 +327,7 @@ bool objRuntime::runPrint(char* output) {
 	}
 
 bool ok = true;
-	if (n1 < count) {
+	if (n1 < count) {		
 		ok = printExpression(output, n1, count - 1);
 	}
 
@@ -438,6 +439,7 @@ void objRuntime::clearTokens() {
 	}
 
 	//  clear the token list
+	
 	count = 0;
 	for (i = 0; i < MAX_TOKENS; i++) {
 		tokens[i] = 0;
